@@ -1,3 +1,463 @@
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+
 export default function LoginPage() {
-  return <div style={{color: "white", padding: "2rem"}}>Login coming soon</div>;
+  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
+
+  async function handleSubmit() {
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    const supabase = createClient();
+
+    if (mode === "signup") {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName } },
+      });
+      if (error) setError(error.message);
+      else {
+        setSuccess("Account created! Signing you in...");
+        setTimeout(() => router.push("/dashboard"), 1000);
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) setError(error.message);
+      else router.push("/dashboard");
+    }
+    setLoading(false);
+  }
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .auth-root {
+          min-height: 100vh;
+          background: #1E1E1E;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'DM Sans', sans-serif;
+          padding: 24px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Subtle background texture */
+        .auth-root::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 600px 400px at 80% 10%, rgba(200,241,53,0.04) 0%, transparent 70%),
+            radial-gradient(ellipse 400px 600px at 10% 90%, rgba(200,241,53,0.03) 0%, transparent 70%);
+          pointer-events: none;
+        }
+
+        /* Grid dot pattern */
+        .auth-root::after {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-size: 32px 32px;
+          pointer-events: none;
+        }
+
+        .auth-card {
+          width: 100%;
+          max-width: 420px;
+          position: relative;
+          z-index: 1;
+          animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes cardIn {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo mark */
+        .logo-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 40px;
+          animation: cardIn 0.5s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .logo-mark {
+          width: 36px;
+          height: 36px;
+          background: #C8F135;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .logo-mark svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        .logo-text {
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 20px;
+          color: #FFFFFF;
+          letter-spacing: -0.3px;
+        }
+
+        /* Heading */
+        .auth-heading {
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 32px;
+          color: #FFFFFF;
+          letter-spacing: -0.8px;
+          line-height: 1.1;
+          margin-bottom: 8px;
+          animation: cardIn 0.5s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .auth-heading span {
+          color: #C8F135;
+        }
+
+        .auth-sub {
+          font-size: 14px;
+          color: #666;
+          margin-bottom: 36px;
+          animation: cardIn 0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Tab switcher */
+        .tab-switcher {
+          display: flex;
+          background: #2A2A2A;
+          border-radius: 12px;
+          padding: 4px;
+          margin-bottom: 28px;
+          animation: cardIn 0.5s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .tab-btn {
+          flex: 1;
+          padding: 10px;
+          border: none;
+          border-radius: 9px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          background: transparent;
+          color: #666;
+        }
+
+        .tab-btn.active {
+          background: #333;
+          color: #FFFFFF;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* Form fields */
+        .field-group {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          animation: cardIn 0.5s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .field {
+          position: relative;
+        }
+
+        .field-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 500;
+          color: #666;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+        }
+
+        .field-input {
+          width: 100%;
+          background: #242424;
+          border: 1px solid #333;
+          border-radius: 12px;
+          padding: 14px 16px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 15px;
+          color: #FFFFFF;
+          outline: none;
+          transition: border-color 0.2s, background 0.2s;
+          -webkit-appearance: none;
+        }
+
+        .field-input::placeholder {
+          color: #444;
+        }
+
+        .field-input:focus {
+          border-color: #C8F135;
+          background: #262626;
+        }
+
+        .field-input:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 100px #242424 inset;
+          -webkit-text-fill-color: #FFFFFF;
+        }
+
+        /* Error / success */
+        .msg {
+          margin-top: 16px;
+          padding: 12px 16px;
+          border-radius: 10px;
+          font-size: 13px;
+          animation: cardIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .msg.error {
+          background: rgba(255,68,68,0.1);
+          border: 1px solid rgba(255,68,68,0.2);
+          color: #FF6B6B;
+        }
+
+        .msg.success {
+          background: rgba(200,241,53,0.08);
+          border: 1px solid rgba(200,241,53,0.2);
+          color: #C8F135;
+        }
+
+        /* Submit button */
+        .submit-btn {
+          margin-top: 20px;
+          width: 100%;
+          padding: 16px;
+          background: #C8F135;
+          border: none;
+          border-radius: 14px;
+          font-family: 'Syne', sans-serif;
+          font-size: 15px;
+          font-weight: 600;
+          color: #1E1E1E;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          letter-spacing: -0.2px;
+          animation: cardIn 0.5s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+          background: #D4F557;
+          transform: translateY(-1px);
+          box-shadow: 0 8px 24px rgba(200,241,53,0.25);
+        }
+
+        .submit-btn:active:not(:disabled) {
+          transform: translateY(0px) scale(0.99);
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        /* Loading spinner inside button */
+        .spinner {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border: 2px solid rgba(30,30,30,0.3);
+          border-top-color: #1E1E1E;
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          vertical-align: middle;
+          margin-right: 8px;
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        /* Divider */
+        .divider {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin: 24px 0;
+          animation: cardIn 0.5s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .divider-line {
+          flex: 1;
+          height: 1px;
+          background: #2E2E2E;
+        }
+
+        .divider-text {
+          font-size: 12px;
+          color: #444;
+          white-space: nowrap;
+        }
+
+        /* Bottom note */
+        .bottom-note {
+          text-align: center;
+          font-size: 12px;
+          color: #444;
+          margin-top: 28px;
+          animation: cardIn 0.5s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+          line-height: 1.6;
+        }
+
+        .bottom-note a {
+          color: #C8F135;
+          text-decoration: none;
+        }
+      `}</style>
+
+      <div className="auth-root">
+        <div className="auth-card">
+
+          {/* Logo */}
+          <div className="logo-wrap">
+            <div className="logo-mark">
+              <svg viewBox="0 0 18 18" fill="none">
+                <path d="M3 9h12M9 3l6 6-6 6" stroke="#1E1E1E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span className="logo-text">Divvy</span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="auth-heading">
+            {mode === "login" ? (
+              <>Split smart,<br /><span>live easy.</span></>
+            ) : (
+              <>Your house,<br /><span>your rules.</span></>
+            )}
+          </h1>
+          <p className="auth-sub">
+            {mode === "login"
+              ? "Sign in to manage shared expenses with your housemates."
+              : "Create an account and invite your housemates."}
+          </p>
+
+          {/* Tab switcher */}
+          <div className="tab-switcher">
+            <button
+              className={`tab-btn ${mode === "login" ? "active" : ""}`}
+              onClick={() => { setMode("login"); setError(""); setSuccess(""); }}
+            >
+              Sign in
+            </button>
+            <button
+              className={`tab-btn ${mode === "signup" ? "active" : ""}`}
+              onClick={() => { setMode("signup"); setError(""); setSuccess(""); }}
+            >
+              Create account
+            </button>
+          </div>
+
+          {/* Form fields */}
+          <div className="field-group">
+            {mode === "signup" && (
+              <div className="field">
+                <label className="field-label">Full name</label>
+                <input
+                  className="field-input"
+                  type="text"
+                  placeholder="Elvis Okonkwo"
+                  value={fullName}
+                  onChange={e => setFullName(e.target.value)}
+                  autoComplete="name"
+                />
+              </div>
+            )}
+
+            <div className="field">
+              <label className="field-label">Email</label>
+              <input
+                className="field-input"
+                type="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                autoComplete="email"
+              />
+            </div>
+
+            <div className="field">
+              <label className="field-label">Password</label>
+              <input
+                className="field-input"
+                type="password"
+                placeholder={mode === "signup" ? "Min. 6 characters" : "••••••••"}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                autoComplete={mode === "login" ? "current-password" : "new-password"}
+              />
+            </div>
+          </div>
+
+          {/* Error / success messages */}
+          {error && <div className="msg error">{error}</div>}
+          {success && <div className="msg success">{success}</div>}
+
+          {/* Submit */}
+          <button
+            className="submit-btn"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading && <span className="spinner" />}
+            {loading
+              ? "Please wait..."
+              : mode === "login"
+              ? "Sign in to Divvy"
+              : "Create my account"}
+          </button>
+
+          {/* Divider */}
+          <div className="divider">
+            <div className="divider-line" />
+            <span className="divider-text">secured by Supabase</span>
+            <div className="divider-line" />
+          </div>
+
+          {/* Bottom note */}
+          <p className="bottom-note">
+            By continuing you agree to our{" "}
+            <a href="#">Terms of Service</a>
+            {" "}and{" "}
+            <a href="#">Privacy Policy</a>
+            .<br />
+            Your data stays within your household only.
+          </p>
+
+        </div>
+      </div>
+    </>
+  );
 }
