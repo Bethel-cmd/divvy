@@ -7,8 +7,23 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    await supabase.auth.exchangeCodeForSession(code);
+    const { data: { user } } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (user) {
+      // Check if user already has a household
+      const { data: hm } = await supabase
+        .from("housemates")
+        .select("household_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (hm?.household_id) {
+        return NextResponse.redirect(`${origin}/dashboard`);
+      } else {
+        return NextResponse.redirect(`${origin}/onboarding`);
+      }
+    }
   }
 
-  return NextResponse.redirect(`${origin}/dashboard`);
+  return NextResponse.redirect(`${origin}/onboarding`);
 }

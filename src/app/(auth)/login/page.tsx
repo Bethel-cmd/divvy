@@ -18,25 +18,64 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     setSuccess("");
+
+    // Diagnostic logging
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    console.log("Supabase URL:", supabaseUrl);
+    console.log("Supabase Key available:", !!supabaseKey);
+
+    if (!supabaseUrl || !supabaseKey) {
+      setError("Supabase configuration is missing. Check your .env.local file.");
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
 
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: fullName } },
-      });
-      if (error) setError(error.message);
-      else {
-        setSuccess("Account created! Signing you in...");
-        setTimeout(() => router.push("/dashboard"), 1000);
+    try {
+      if (mode === "signup") {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { full_name: fullName } },
+        });
+        if (error) {
+          console.error("Signup error:", error);
+          setError(error.message);
+        } else if (data.session) {
+          setSuccess("Account created! Setting up your space...");
+          setTimeout(() => router.push("/onboarding"), 1000);
+        } else {
+          setSuccess("Account created! Please check your email for a confirmation link.");
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          console.error("Signin error:", error);
+          if (error.message.toLowerCase().includes("confirmed")) {
+            setError("Email not confirmed. Please check your inbox or disable 'Confirm Email' in your Supabase Auth settings.");
+          } else {
+            setError(error.message);
+          }
+        } else {
+          // Check if user has a household
+          const { data: hm } = await supabase
+            .from("housemates")
+            .select("household_id")
+            .eq("user_id", (await supabase.auth.getUser()).data.user?.id || "")
+            .single();
+
+          if (hm?.household_id) router.push("/dashboard");
+          else router.push("/onboarding");
+        }
       }
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message);
-      else router.push("/dashboard");
+    } catch (err: any) {
+      console.error("Fetch error caught:", err);
+      setError(`Connection failed: ${err.message || "Unknown error"}. Check your internet connection and Supabase URL.`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
