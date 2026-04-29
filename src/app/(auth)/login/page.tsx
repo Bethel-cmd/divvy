@@ -374,6 +374,11 @@ export default function LoginPage() {
           color: #C8F135;
           text-decoration: none;
         }
+
+        @media (max-width: 480px) {
+          .auth-heading { font-size: 26px; }
+          .auth-root { padding: 16px; }
+        }
       `}</style>
 
       <div className="auth-root">

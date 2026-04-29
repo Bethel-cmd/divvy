@@ -369,6 +369,9 @@ export default function OnboardingPage() {
           .ob-right { padding: 32px 24px; align-items: flex-start; padding-top: 56px; }
           .choose-grid { grid-template-columns: 1fr; }
           .ob-card { max-width: 100%; }
+          .ob-title { font-size: 24px; }
+          .code-box { padding: 16px; flex-direction: column; align-items: stretch; gap: 12px; }
+          .code-value { font-size: 24px; text-align: center; }
         }
       `}</style>
 

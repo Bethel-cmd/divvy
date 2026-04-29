@@ -496,9 +496,11 @@ export default function HousematesPage() {
         }
 
         @media (max-width: 768px) {
-          .hm-topbar { flex-direction: column; padding: 28px 20px; }
+          .hm-topbar { flex-direction: column; padding: 28px 20px; gap: 20px; }
           .hm-content { padding: 20px; }
-          .invite-card { width: 100%; }
+          .invite-card { width: 100%; justify-content: space-between; }
+          .member-row { padding: 14px 16px; }
+          .modal-card { padding: 24px; margin: 16px; }
         }
       `}</style>
 

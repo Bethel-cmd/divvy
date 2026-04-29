@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
+import NotificationsBell from "@/components/layout/NotificationsBell";
 
 type Profile = { full_name: string; email: string };
 type Bill = {
@@ -158,8 +159,10 @@ export default function DashboardPage() {
 
         .dash {
           font-family: 'DM Sans', sans-serif;
-          padding: 40px 0 40px;
+          padding: 40px 24px 40px;
           min-height: 100vh;
+          max-width: 900px;
+          margin: 0 auto;
         }
 
         /* ── Top bar ── */
@@ -168,6 +171,8 @@ export default function DashboardPage() {
           align-items: flex-start;
           justify-content: space-between;
           margin-bottom: 32px;
+          position: relative;
+          z-index: 50;
           animation: fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both;
         }
 
@@ -208,7 +213,7 @@ export default function DashboardPage() {
         }
 
         @media (min-width: 768px) {
-          .dash { padding: 48px 0; }
+          .dash { padding: 48px 60px; }
           .dash-username { font-size: 30px; }
           .dash-grid {
             grid-template-columns: 1fr 1fr;
@@ -485,15 +490,7 @@ export default function DashboardPage() {
             <p className="dash-greeting">{greeting},</p>
             <h1 className="dash-username">{firstName} 👋</h1>
           </div>
-          <button className="notif-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"
-                stroke="var(--text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M13.73 21a2 2 0 01-3.46 0"
-                stroke="var(--text-muted)" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-            <span className="notif-dot" />
-          </button>
+          <NotificationsBell />
         </div>
 
         {/* Main grid */}

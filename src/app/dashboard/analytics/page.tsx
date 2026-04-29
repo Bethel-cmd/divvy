@@ -397,7 +397,11 @@ export default function AnalyticsPage() {
           .an-topbar { padding:28px 20px 20px; flex-direction:column; }
           .an-grid { padding:20px 20px 40px; }
           .stat-row { grid-template-columns:1fr 1fr; }
-          .settlement-wrap { flex-direction:column; align-items:flex-start; }
+          .chart-panel { padding:16px; }
+          .settlement-wrap { flex-direction:column; align-items:center; gap:20px; }
+          .settlement-stats { width:100%; }
+          .person-row { padding:12px 14px; gap:10px; }
+          .cat-legend-row { padding:8px 10px; }
         }
       `}</style>
 
