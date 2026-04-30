@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import NotificationsBell from "./NotificationsBell";
 
 const navItems = [
   {
@@ -208,6 +209,54 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           margin-left: 240px;
           min-height: 100vh;
           background: var(--bg);
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* ── APP HEADER ── */
+        .app-header {
+          height: 64px;
+          min-height: 64px;
+          padding: 0 40px;
+          display: flex;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 110;
+          background: rgba(22, 22, 22, 0.85);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border);
+        }
+
+        .app-header-inner {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .header-mobile-logo {
+          display: none;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+        }
+
+        .header-logo-mark {
+          width: 28px; height: 28px;
+          background: var(--accent);
+          border-radius: 8px;
+          display: flex; align-items: center; justify-content: center;
+        }
+
+        .header-logo-text {
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 16px;
+          color: var(--text);
+          letter-spacing: -0.3px;
         }
 
         /* ── BOTTOM NAV (mobile only) ── */
@@ -261,6 +310,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             margin-left: 0;
             padding-bottom: 80px;
           }
+          .app-header {
+            padding: 0 20px;
+          }
+          .header-mobile-logo {
+            display: flex;
+          }
           .bottom-nav { display: flex; }
         }
       `}</style>
@@ -309,7 +364,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         {/* Main content */}
         <main className="main-content">
-          {children}
+          <header className="app-header">
+            <div className="app-header-inner">
+              <div className="app-header-left">
+                <Link href="/dashboard" className="header-mobile-logo">
+                  <div className="header-logo-mark">
+                    <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                      <path d="M3 9h12M9 3l6 6-6 6" stroke="#1E1E1E" strokeWidth="2.5"
+                        strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <span className="header-logo-text">Divvy</span>
+                </Link>
+              </div>
+              <div className="app-header-right">
+                <NotificationsBell />
+              </div>
+            </div>
+          </header>
+
+          <div style={{ flex: 1 }}>
+            {children}
+          </div>
         </main>
 
         {/* Mobile bottom nav */}

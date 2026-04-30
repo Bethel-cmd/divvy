@@ -23,6 +23,7 @@ type BillShare = {
   user_id: string;
   amount_owed: number;
   is_paid: boolean;
+  status: string;
   paid_at: string | null;
 };
 
@@ -181,16 +182,16 @@ export default function AnalyticsPage() {
   const totalBillAmount = bills.reduce((s, b) => s + Number(b.amount), 0);
   const myShares = shares.filter(s => s.user_id === currentUserId);
   const myTotalOwed = myShares.reduce((s, sh) => s + Number(sh.amount_owed), 0);
-  const myTotalPaid = myShares.filter(s => s.is_paid).reduce((s, sh) => s + Number(sh.amount_owed), 0);
+  const myTotalPaid = myShares.filter(s => s.status === "verified").reduce((s, sh) => s + Number(sh.amount_owed), 0);
   const mySettlementRate = myTotalOwed > 0 ? Math.round((myTotalPaid / myTotalOwed) * 100) : 100;
-  const overallPaid = shares.filter(s => s.is_paid).reduce((s, sh) => s + Number(sh.amount_owed), 0);
+  const overallPaid = shares.filter(s => s.status === "verified").reduce((s, sh) => s + Number(sh.amount_owed), 0);
   const overallOwed = shares.reduce((s, sh) => s + Number(sh.amount_owed), 0);
   const overallSettlementRate = overallOwed > 0 ? Math.round((overallPaid / overallOwed) * 100) : 100;
 
   // 4. Per-person breakdown
   const personData = housemates.map(hm => {
     const hmShares = shares.filter(s => s.user_id === hm.user_id);
-    const paid = hmShares.filter(s => s.is_paid).reduce((s, sh) => s + Number(sh.amount_owed), 0);
+    const paid = hmShares.filter(s => s.status === "verified").reduce((s, sh) => s + Number(sh.amount_owed), 0);
     const owed = hmShares.reduce((s, sh) => s + Number(sh.amount_owed), 0);
     const outstanding = owed - paid;
     return { name: hm.full_name.split(" ")[0], fullName: hm.full_name, paid, owed, outstanding, isMe: hm.user_id === currentUserId };

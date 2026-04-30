@@ -330,7 +330,7 @@ export default function BillsPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
         .br{min-height:100vh;background:#161616;font-family:'DM Sans',sans-serif;color:#fff}
-        .btb{padding:36px 40px 28px;border-bottom:1px solid #1E1E1E;display:flex;align-items:center;justify-content:space-between;gap:20px}
+        .btb{padding:20px 40px 28px;border-bottom:1px solid #1E1E1E;display:flex;align-items:center;justify-content:space-between;gap:20px}
         .btt{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-.6px;margin-bottom:4px}
         .bts{font-size:13px;color:#555}
         .add-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:#C8F135;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#161616;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s cubic-bezier(.16,1,.3,1)}

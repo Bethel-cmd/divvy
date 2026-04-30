@@ -187,7 +187,7 @@ export default function HousematesPage() {
 
         /* Top bar */
         .hm-topbar {
-          padding: 36px 40px 0;
+          padding: 20px 40px 0;
           border-bottom: 1px solid var(--border);
           display: flex;
           align-items: flex-start;

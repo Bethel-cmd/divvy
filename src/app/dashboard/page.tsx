@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import NotificationsBell from "@/components/layout/NotificationsBell";
 
 type Profile = { full_name: string; email: string };
 type Bill = {
@@ -102,22 +101,17 @@ export default function DashboardPage() {
           .order("created_at", { ascending: false }).limit(8);
         setBills(billsData || []);
 
-        const { data: shares } = await supabase
-          .from("bill_shares").select("amount_owed")
-          .eq("user_id", user.id).eq("is_paid", false);
-        const total = (shares || []).reduce((s, x) => s + Number(x.amount_owed), 0);
-        setTotalBalance(total);
-
-
-
-        // Calculate total paid (all time for now as a fallback)
-        const { data: paidShares } = await supabase
-          .from("bill_shares")
-          .select("amount_owed")
-          .eq("user_id", user.id)
-          .eq("is_paid", true);
+        const { data: allShares } = await supabase
+          .from("bill_shares").select("amount_owed, status")
+          .eq("user_id", user.id);
         
-        setTotalPaid((paidShares || []).reduce((sum, s) => sum + Number(s.amount_owed), 0));
+        const unpaid = (allShares || []).filter(s => 
+          s.status === "unpaid" || s.status === "rejected" || s.status === "pending_verification"
+        );
+        setTotalBalance(unpaid.reduce((s, x) => s + Number(x.amount_owed), 0));
+
+        const verified = (allShares || []).filter(s => s.status === "verified");
+        setTotalPaid(verified.reduce((sum, s) => sum + Number(s.amount_owed), 0));
       }
       setLoading(false);
     }
@@ -160,7 +154,7 @@ export default function DashboardPage() {
 
         .dash {
           font-family: 'DM Sans', sans-serif;
-          padding: 40px 24px 40px;
+          padding: 24px 24px 40px;
           min-height: 100vh;
           max-width: 900px;
           margin: 0 auto;
@@ -491,7 +485,6 @@ export default function DashboardPage() {
             <p className="dash-greeting">{greeting},</p>
             <h1 className="dash-username">{firstName} 👋</h1>
           </div>
-          <NotificationsBell />
         </div>
 
         {/* Main grid */}
