@@ -55,6 +55,7 @@ export default function DashboardPage() {
     if (!user) { router.push("/login"); return; }
 
     async function load() {
+      if (!user) return;
       const supabase = createClient();
 
       const { data: prof } = await supabase

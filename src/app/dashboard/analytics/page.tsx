@@ -108,6 +108,7 @@ export default function AnalyticsPage() {
     setCurrentUserId(user.id);
 
     async function load() {
+      if (!user) return;
       const supabase = createClient();
 
       const { data: hm } = await supabase

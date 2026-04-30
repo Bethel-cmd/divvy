@@ -77,6 +77,7 @@ export default function SettingsPage() {
     if (!user) { router.push("/login"); return; }
 
     async function load() {
+      if (!user) return;
       const supabase = createClient();
 
       const { data: prof } = await supabase
@@ -385,7 +386,7 @@ export default function SettingsPage() {
                             key={t.id}
                             className={`theme-card ${isSelected ? "selected" : ""}`}
                             style={{ background: t.bg, opacity: isComingSoon ? 0.5 : 1, cursor: isComingSoon ? "default" : "pointer" }}
-                            onClick={() => !isComingSoon && setTheme(t.id)}
+                            onClick={() => !isComingSoon && setTheme(t.id as any)}
                           >
                             <div className="theme-preview" style={{ background: isComingSoon ? t.bg : `${t.bg}cc` }}>
                               {[40, 60, 80, 55, 70].map((h, i) => (
