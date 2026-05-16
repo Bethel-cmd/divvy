@@ -600,6 +600,7 @@ export default function BillsPage() {
             </div>
             <div className="pb">
               {formError && <div className="fe">{formError}</div>}
+              
               <div style={{ marginBottom: 18 }}>
                 <label className="flab">Bill title</label>
                 <input className="fi" type="text" placeholder="e.g. Electricity — June" value={title} onChange={e => setTitle(e.target.value)} autoFocus/>
@@ -825,6 +826,7 @@ export default function BillsPage() {
           </div>
         </div>
       )}
+
     </>
   );
 }

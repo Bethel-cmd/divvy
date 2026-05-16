@@ -22,13 +22,10 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     const supabase = createClient();
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for auth changes
+    // onAuthStateChange fires immediately with INITIAL_SESSION, giving us
+    // the local session without making a network call to /auth/v1/user.
+    // We rely on this alone to avoid the background getUser() validation
+    // that getSession() triggers in @supabase/auth-js >= 2.65.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
