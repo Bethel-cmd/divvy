@@ -278,7 +278,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           align-items: center;
           gap: 4px;
           text-decoration: none;
-          padding: 6px 16px;
+          padding: 6px 20px;
           border-radius: 12px;
           transition: transform 0.15s;
           position: relative;
@@ -390,7 +390,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         {/* Mobile bottom nav */}
         <nav className="bottom-nav">
-          {navItems.slice(0, 4).map((item) => {
+          {navItems.filter(item => item.href !== "/dashboard/analytics").map((item) => {
             const active = pathname === item.href ||
               (item.href !== "/dashboard" && pathname.startsWith(item.href));
             return (
