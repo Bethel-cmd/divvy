@@ -254,7 +254,7 @@ export default function DashboardPage() {
         }
 
         .balance-amount {
-          font-family: 'Geist', 'DM Sans', sans-serif;
+          font-family: 'Syne', sans-serif;
           font-size: 40px; font-weight: 600;
           color: var(--text); letter-spacing: -1px; line-height: 1;
           margin-bottom: 8px;

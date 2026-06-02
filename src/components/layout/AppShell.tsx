@@ -3,19 +3,20 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useTheme } from "./ThemeProvider";
 import NotificationsBell from "./NotificationsBell";
 
-const navItems = [
+const createNavItems = (accent: string, muted: string) => [
   {
     label: "Home",
     href: "/dashboard",
     icon: (active: boolean) => (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8"
+          stroke={active ? accent : muted} strokeWidth="1.8"
           strokeLinecap="round" strokeLinejoin="round"
-          fill={active ? "rgba(200,241,53,0.12)" : "none"}/>
-        <path d="M9 21V12h6v9" stroke={active ? "#C8F135" : "#555"}
+          fill={active ? `${accent}1f` : "none"}/>
+        <path d="M9 21V12h6v9" stroke={active ? accent : muted}
           strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
@@ -25,11 +26,11 @@ const navItems = [
     href: "/dashboard/housemates",
     icon: (active: boolean) => (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <circle cx="9" cy="7" r="3" stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8"/>
+        <circle cx="9" cy="7" r="3" stroke={active ? accent : muted} strokeWidth="1.8"/>
         <path d="M3 20c0-3.314 2.686-6 6-6s6 2.686 6 6"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8" strokeLinecap="round"/>
+          stroke={active ? accent : muted} strokeWidth="1.8" strokeLinecap="round"/>
         <path d="M16 11c1.657 0 3 1.343 3 3M19 20c0-2.21-1.343-4-3-4"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8" strokeLinecap="round"/>
+          stroke={active ? accent : muted} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
   },
@@ -39,9 +40,9 @@ const navItems = [
     icon: (active: boolean) => (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <rect x="4" y="3" width="16" height="18" rx="2"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8"/>
+          stroke={active ? accent : muted} strokeWidth="1.8"/>
         <path d="M8 8h8M8 12h8M8 16h5"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8" strokeLinecap="round"/>
+          stroke={active ? accent : muted} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
   },
@@ -51,7 +52,7 @@ const navItems = [
     icon: (active: boolean) => (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <path d="M18 20V10M12 20V4M6 20v-6"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8" strokeLinecap="round"/>
+          stroke={active ? accent : muted} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
   },
@@ -60,9 +61,9 @@ const navItems = [
     href: "/dashboard/settings",
     icon: (active: boolean) => (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="3" stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8"/>
+        <circle cx="12" cy="12" r="3" stroke={active ? accent : muted} strokeWidth="1.8"/>
         <path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
-          stroke={active ? "#C8F135" : "#555"} strokeWidth="1.8" strokeLinecap="round"/>
+          stroke={active ? accent : muted} strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
   },
@@ -71,6 +72,20 @@ const navItems = [
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme } = useTheme();
+
+  // Theme-aware colors for icons
+  const themeColors = {
+    dark: { accent: "#C8F135", muted: "#555" },
+    darker: { accent: "#C8F135", muted: "#444" },
+    light: { accent: "#1A1A1A", muted: "#888" },
+  };
+  
+  const colors = themeColors[theme as keyof typeof themeColors] || themeColors.dark;
+  const { accent, muted } = colors;
+  
+  // Create nav items with theme-aware colors
+  const navItems = createNavItems(accent, muted);
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -224,7 +239,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           position: sticky;
           top: 0;
           z-index: 110;
-          background: rgba(22, 22, 22, 0.85);
+          background: rgba(var(--bg-rgb), 0.85);
           backdrop-filter: blur(12px);
           border-bottom: 1px solid var(--border);
         }
@@ -301,8 +316,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           font-weight: 500;
         }
 
-        .bnav-label.active { color: #C8F135; }
-        .bnav-label.inactive { color: #555; }
+        .bnav-label.active { color: var(--accent); }
+        .bnav-label.inactive { color: var(--text-muted); }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
@@ -356,7 +371,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <button className="signout-btn" onClick={handleSignOut}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"
-                  stroke="#555" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  stroke="var(--text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span>Sign out</span>
             </button>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* Theme: Dark (default) */
@@ -14,6 +15,10 @@
   --danger: #FF4444;
   --success: #22C55E;
   --warning: #F59E0B;
+  
+  /* RGB values for rgba() usage */
+  --bg-rgb: 22, 22, 22;
+  --text-rgb: 255, 255, 255;
 }
 
 /* Theme: Midnight */
@@ -25,6 +30,10 @@
   --text: #ffffff;
   --text-muted: #444;
   --accent: #C8F135;
+  
+  /* RGB values for rgba() usage */
+  --bg-rgb: 10, 10, 10;
+  --text-rgb: 255, 255, 255;
 }
 
 /* Theme: Light */
@@ -36,6 +45,10 @@
   --text: #111111;
   --text-muted: #888;
   --accent: #1A1A1A;
+  
+  /* RGB values for rgba() usage */
+  --bg-rgb: 240, 240, 240;
+  --text-rgb: 17, 17, 17;
 }
 
 * {
