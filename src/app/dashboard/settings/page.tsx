@@ -285,27 +285,32 @@ export default function SettingsPage() {
         .spn { display:inline-block; width:14px; height:14px; border:2px solid rgba(22,22,22,.3); border-top-color:var(--bg); border-radius:50%; animation:spin .65s linear infinite; vertical-align:middle; margin-right:8px; }
         @keyframes spin { to { transform:rotate(360deg); } }
 
+        .st-mobile-nav { display:none; }
+
         @media(max-width:900px) {
           .st-body { flex-direction:column; }
-          .st-nav {
-            width:100%; border-right:none; border-bottom:1px solid var(--border);
-            flex-direction:row; overflow-x:auto; padding:10px 12px;
-            gap:6px; flex-shrink:0;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+          .st-nav { display:none; }
+          .st-mobile-nav {
+            display:flex; flex-direction:column;
+            border-bottom:1px solid var(--border);
           }
-          .st-nav::-webkit-scrollbar { display:none; }
-          .st-nav-item {
-            flex-shrink:0; flex-direction:row;
-            padding:8px 12px; gap:8px; white-space:nowrap;
+          .st-mob-row {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:13px 16px; border-bottom:1px solid var(--border);
+            cursor:pointer; transition:background .15s;
           }
-          .st-nav-desc { display:none; }
-          .st-nav-icon { width:26px; height:26px; font-size:14px; }
-          .st-nav-label { font-size:12px; }
-          .st-content { padding:24px 20px; max-width:100%; }
-        }
-        @media(max-width:768px) {
-          .st-topbar { padding:20px 20px 16px; }
+          .st-mob-row:last-child { border-bottom:none; }
+          .st-mob-row:hover { background:var(--surface-2); }
+          .st-mob-row.active { background:rgba(200,241,53,0.05); }
+          .st-mob-left { display:flex; align-items:center; gap:10px; }
+          .st-mob-icon { width:30px; height:30px; border-radius:8px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:14px; }
+          .st-mob-row.active .st-mob-icon { background:rgba(200,241,53,0.1); }
+          .st-mob-label { font-size:13px; font-weight:500; color:var(--text-muted); }
+          .st-mob-row.active .st-mob-label { color:var(--text); }
+          .st-mob-chevron { color:var(--text-muted); transition:transform .2s; }
+          .st-mob-chevron.open { transform:rotate(180deg); }
+          .st-content { padding:16px; max-width:100%; }
+          .st-topbar { padding:20px 16px 16px; }
           .theme-grid { grid-template-columns:1fr 1fr; }
           .contact-grid { grid-template-columns:1fr; }
           .st-section-title { font-size:16px; }
@@ -321,7 +326,7 @@ export default function SettingsPage() {
 
         <div className="st-body">
 
-          {/* Left nav */}
+          {/* Left nav — desktop only */}
           <nav className="st-nav">
             {NAV_ITEMS.map(item => (
               <div
@@ -337,6 +342,25 @@ export default function SettingsPage() {
               </div>
             ))}
           </nav>
+
+          {/* Mobile accordion nav */}
+          <div className="st-mobile-nav">
+            {NAV_ITEMS.map(item => (
+              <div
+                key={item.id}
+                className={`st-mob-row ${activeSection === item.id ? "active" : ""}`}
+                onClick={() => setActiveSection(item.id)}
+              >
+                <div className="st-mob-left">
+                  <div className="st-mob-icon">{item.icon}</div>
+                  <div className="st-mob-label">{item.label}</div>
+                </div>
+                <svg className={`st-mob-chevron ${activeSection === item.id ? "open" : ""}`} width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            ))}
+          </div>
 
           {/* Content */}
           <div className="st-content" key={activeSection}>
