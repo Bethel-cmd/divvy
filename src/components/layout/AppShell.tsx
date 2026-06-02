@@ -120,6 +120,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           border-radius: 9px;
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .sidebar-logo-text {
@@ -327,7 +328,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="sidebar-logo">
             <div className="sidebar-logo-mark">
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <path d="M3 9h12M9 3l6 6-6 6" stroke="#1E1E1E" strokeWidth="2.2"
+                <path d="M3 9h12M9 3l6 6-6 6" stroke="var(--bg)" strokeWidth="2.2"
                   strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
@@ -370,7 +371,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <Link href="/dashboard" className="header-mobile-logo">
                   <div className="header-logo-mark">
                     <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                      <path d="M3 9h12M9 3l6 6-6 6" stroke="#1E1E1E" strokeWidth="2.5"
+                      <path d="M3 9h12M9 3l6 6-6 6" stroke="var(--bg)" strokeWidth="2.5"
                         strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
