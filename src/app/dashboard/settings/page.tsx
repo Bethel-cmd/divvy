@@ -287,14 +287,29 @@ export default function SettingsPage() {
 
         @media(max-width:900px) {
           .st-body { flex-direction:column; }
-          .st-nav { width:100%; border-right:none; border-bottom:1px solid var(--border); flex-direction:row; overflow-x:auto; padding:12px; gap:6px; }
+          .st-nav {
+            width:100%; border-right:none; border-bottom:1px solid var(--border);
+            flex-direction:row; overflow-x:auto; padding:10px 12px;
+            gap:6px; flex-shrink:0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .st-nav::-webkit-scrollbar { display:none; }
+          .st-nav-item {
+            flex-shrink:0; flex-direction:row;
+            padding:8px 12px; gap:8px; white-space:nowrap;
+          }
           .st-nav-desc { display:none; }
-          .st-content { padding:24px 20px; }
+          .st-nav-icon { width:26px; height:26px; font-size:14px; }
+          .st-nav-label { font-size:12px; }
+          .st-content { padding:24px 20px; max-width:100%; }
         }
         @media(max-width:768px) {
-          .st-topbar { padding:28px 20px 20px; }
+          .st-topbar { padding:20px 20px 16px; }
           .theme-grid { grid-template-columns:1fr 1fr; }
           .contact-grid { grid-template-columns:1fr; }
+          .st-section-title { font-size:16px; }
+          .avatar-circle { width:52px; height:52px; font-size:16px; border-radius:16px; }
         }
       `}</style>
 

@@ -150,7 +150,7 @@ export default function DashboardPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Geist:wght@400;500;600;700&display=swap');
 
         .dash {
           font-family: 'DM Sans', sans-serif;
@@ -254,14 +254,14 @@ export default function DashboardPage() {
         }
 
         .balance-amount {
-          font-family: 'Syne', sans-serif;
-          font-size: 52px; font-weight: 800;
-          color: var(--text); letter-spacing: -3px; line-height: 1;
+          font-family: 'Geist', 'DM Sans', sans-serif;
+          font-size: 40px; font-weight: 600;
+          color: var(--text); letter-spacing: -1px; line-height: 1;
           margin-bottom: 8px;
         }
 
         .balance-amount .currency {
-          font-size: 28px; font-weight: 600;
+          font-size: 24px; font-weight: 500;
           color: var(--text-muted); letter-spacing: -0.5px;
         }
 
