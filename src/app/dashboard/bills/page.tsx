@@ -5,6 +5,10 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/components/layout/ThemeProvider";
 import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, LineChart, Line, CartesianGrid,
+} from "recharts";
+import {
   requestVerification,
   verifyPayment,
   rejectPayment,
@@ -68,6 +72,22 @@ const STATUS_CONFIG = {
   rejected:             { label: "Rejected",  color: "#FF5555", bg: "rgba(255,85,85,0.1)",    icon: "✕" },
 };
 
+const CATEGORY_COLORS: Record<string, string> = {
+  electricity: "#F59E0B",
+  water: "#3B82F6",
+  internet: "#818CF8",
+  rent: "#C8F135",
+  groceries: "#22C55E",
+  other: "#888",
+};
+
+const CATEGORY_ICONS: Record<string, string> = {
+  electricity: "⚡", water: "💧", internet: "📡",
+  rent: "🏠", groceries: "🛒", other: "📋",
+};
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
 function formatNaira(n: number) { return "₦" + Number(n).toLocaleString("en-NG"); }
 function getInitials(name: string) { return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2); }
 function timeAgo(d: string) {
@@ -76,6 +96,46 @@ function timeAgo(d: string) {
   if (days === 1) return "Yesterday";
   if (days < 7) return `${days}d ago`;
   return new Date(d).toLocaleDateString("en-NG", { day: "numeric", month: "short" });
+}
+
+function formatNairaFull(n: number) {
+  if (n >= 1_000_000) return "₦" + (n / 1_000_000).toFixed(1) + "M";
+  if (n >= 1_000) return "₦" + (n / 1_000).toFixed(0) + "k";
+  return "₦" + Number(n).toLocaleString("en-NG");
+}
+
+function CustomTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{
+      background: "#1E1E1E", border: "1px solid #2A2A2A",
+      borderRadius: 10, padding: "10px 14px",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
+      <p style={{ fontSize: 12, color: "#555", marginBottom: 4 }}>{label}</p>
+      {payload.map((p: any, i: number) => (
+        <p key={i} style={{ fontSize: 14, fontWeight: 600, color: p.color || "#C8F135" }}>
+          {formatNairaFull(p.value)}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function CustomPieTooltip({ active, payload }: any) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0];
+  return (
+    <div style={{
+      background: "#1E1E1E", border: "1px solid #2A2A2A",
+      borderRadius: 10, padding: "10px 14px",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
+      <p style={{ fontSize: 12, color: "#555", marginBottom: 4 }}>{d.name}</p>
+      <p style={{ fontSize: 14, fontWeight: 600, color: d.payload.color }}>{formatNairaFull(d.value)}</p>
+      <p style={{ fontSize: 11, color: "#555" }}>{d.payload.percent}% of total</p>
+    </div>
+  );
 }
 
 export default function BillsPage() {
@@ -92,6 +152,7 @@ export default function BillsPage() {
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [filter, setFilter] = useState<"all" | "unpaid" | "pending" | "verified">("all");
   const [submitting, setSubmitting] = useState(false);
+  const [currentTab, setCurrentTab] = useState<"bills" | "analytics">("bills");
 
   // Add bill form
   const [title, setTitle] = useState("");
@@ -457,7 +518,14 @@ export default function BillsPage() {
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
+        /* Tabs */
+        .tabs-container{display:none}
+        .tabs{display:flex;gap:8px;padding:0 20px 16px;border-bottom:1px solid var(--border)}
+        .tab-btn{padding:10px 16px;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;white-space:nowrap}
+        .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+        .tab-btn:hover{color:var(--text)}
         @media(max-width:768px) {
+          .tabs-container{display:block}
           .btb{padding:28px 20px 20px; flex-direction:column; align-items:flex-start; gap:16px}
           .sr{grid-template-columns:1fr;padding:20px 20px 0}
           .fr{padding:16px 20px 0;flex-wrap:wrap}
@@ -489,6 +557,18 @@ export default function BillsPage() {
           </button>
         </div>
 
+        {/* Mobile tabs */}
+        <div className="tabs-container">
+          <div className="tabs">
+            <button className={`tab-btn ${currentTab === "bills" ? "active" : ""}`} onClick={() => setCurrentTab("bills")}>
+              Bills
+            </button>
+            <button className={`tab-btn ${currentTab === "analytics" ? "active" : ""}`} onClick={() => setCurrentTab("analytics")}>
+              📊 Analytics
+            </button>
+          </div>
+        </div>
+
         {/* Admin pending verification banner */}
         {isAdmin && pendingVerifications > 0 && (
           <div className="pending-banner">
@@ -502,91 +582,276 @@ export default function BillsPage() {
           </div>
         )}
 
-        {/* Summary */}
-        <div className="sr">
-          {[
-            { label: "You owe", value: totalOwed > 0 ? formatNaira(totalOwed) : "Settled ✓", cls: totalOwed > 0 ? "d" : "s", delay: "0s" },
-            { label: "Verified paid", value: formatNaira(totalPaid), cls: "s", delay: "0.05s" },
-            { label: "Pending", value: String(bills.filter(b => b.shares?.find(s => s.user_id === currentUserId && s.status === "pending_verification")).length), cls: "w", delay: "0.1s" },
-          ].map(c => (
-            <div className="sc" key={c.label} style={{ animationDelay: c.delay }}>
-              <div className="sl">{c.label}</div>
-              <div className={`sv ${c.cls}`}>{c.value}</div>
-            </div>
-          ))}
+          </div>
         </div>
 
-        {/* Filters */}
-        <div className="fr">
-          {([
-            { id: "all", label: "All" },
-            { id: "unpaid", label: "Unpaid" },
-            { id: "pending", label: `Pending${pendingVerifications > 0 && isAdmin ? ` (${pendingVerifications})` : ""}` },
-            { id: "verified", label: "Verified" },
-          ] as const).map(f => (
-            <button
-              key={f.id}
-              className={`ft ${filter === f.id ? "a" : ""} ${f.id === "pending" ? "pending-tab" : ""}`}
-              onClick={() => setFilter(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        {/* ANALYTICS VIEW */}
+        {currentTab === "analytics" && bills.length > 0 && (
+          <div style={{ padding: "28px 40px 40px" }}>
+            {(() => {
+              // Category data
+              const categoryData = Object.entries(
+                bills.reduce((acc, bill) => {
+                  acc[bill.category] = (acc[bill.category] || 0) + Number(bill.amount);
+                  return acc;
+                }, {} as Record<string, number>)
+              ).map(([cat, total]) => ({
+                name: cat.charAt(0).toUpperCase() + cat.slice(1),
+                value: total,
+                color: CATEGORY_COLORS[cat] || "#888",
+                icon: CATEGORY_ICONS[cat] || "📋",
+                percent: bills.length ? Math.round((total / bills.reduce((s, b) => s + Number(b.amount), 0)) * 100) : 0,
+              })).sort((a, b) => b.value - a.value);
 
-        {/* Bills list */}
-        <div className="bl">
-          {filteredBills.length === 0 ? (
-            <div className="es">
-              <div className="ei">🧾</div>
-              <p className="et">{filter === "all" ? "No bills yet" : `No ${filter} bills`}</p>
-              <p className="esub">{filter === "all" ? "Add your first shared bill and Divvy will split it equally." : `No ${filter} bills right now.`}</p>
-            </div>
-          ) : filteredBills.map((bill, i) => {
-            const myShare = bill.shares?.find(s => s.user_id === currentUserId);
-            const status = myShare?.status || "unpaid";
-            const statusCfg = STATUS_CONFIG[status];
-            const catInfo = CATEGORIES.find(c => c.value === bill.category);
-            const pendingCount = bill.shares?.filter(s => s.status === "pending_verification").length || 0;
+              // Monthly data
+              const now = new Date();
+              const monthlyData = Array.from({ length: 6 }, (_, i) => {
+                const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+                const month = d.getMonth();
+                const year = d.getFullYear();
+                const total = bills
+                  .filter(b => {
+                    const bd = new Date(b.created_at);
+                    return bd.getMonth() === month && bd.getFullYear() === year;
+                  })
+                  .reduce((s, b) => s + Number(b.amount), 0);
+                return { name: MONTHS[month], total, month, year };
+              });
 
-            return (
-              <div
-                key={bill.id}
-                className={`bc ${selectedBill?.id === bill.id ? "sel" : ""}`}
-                style={{ animationDelay: `${i * 0.04}s` }}
-                onClick={() => { setSelectedBill(bill); setPanelOpen(false); }}
-              >
-                <div className="bci" style={{ background: CAT_COLORS[bill.category] || "rgba(255,255,255,.06)" }}>
-                  {catInfo?.icon || "📋"}
-                </div>
-                <div className="bi">
-                  <div className="bn">
-                    {bill.title}
-                    {isAdmin && pendingCount > 0 && (
-                      <span style={{ marginLeft: 8, padding: "2px 7px", background: "rgba(245,158,11,.1)", border: "1px solid rgba(245,158,11,.25)", borderRadius: 6, fontSize: 10, fontWeight: 600, color: "#F59E0B" }}>
-                        {pendingCount} pending
-                      </span>
-                    )}
+              // Settlement stats
+              const totalBillAmount = bills.reduce((s, b) => s + Number(b.amount), 0);
+              const myShares = bills.flatMap(b => b.shares || []).filter(s => s.user_id === currentUserId);
+              const myTotalOwed = myShares.reduce((s, sh) => s + Number(sh.amount_owed), 0);
+              const myTotalPaid = myShares.filter(s => s.status === "verified").reduce((s, sh) => s + Number(sh.amount_owed), 0);
+              const mySettlementRate = myTotalOwed > 0 ? Math.round((myTotalPaid / myTotalOwed) * 100) : 100;
+              const allShares = bills.flatMap(b => b.shares || []);
+              const overallPaid = allShares.filter(s => s.status === "verified").reduce((s, sh) => s + Number(sh.amount_owed), 0);
+              const overallOwed = allShares.reduce((s, sh) => s + Number(sh.amount_owed), 0);
+              const overallSettlementRate = overallOwed > 0 ? Math.round((overallPaid / overallOwed) * 100) : 100;
+
+              return (
+                <>
+                  {/* Stat cards */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 20 }}>
+                    {[
+                      { label: "Total spend", value: formatNaira(totalBillAmount), sub: `${bills.length} bills`, color: "var(--text)" },
+                      { label: "You owe", value: formatNaira(Math.max(myTotalOwed - myTotalPaid, 0)), sub: myTotalOwed - myTotalPaid > 0 ? "outstanding" : "all settled ✓", color: myTotalOwed - myTotalPaid > 0 ? "var(--danger)" : "var(--success)" },
+                      { label: "Your settlement", value: `${mySettlementRate}%`, sub: `${formatNaira(myTotalPaid)} paid`, color: "var(--accent)" },
+                      { label: "Household rate", value: `${overallSettlementRate}%`, sub: "overall settled", color: "var(--success)" },
+                    ].map(s => (
+                      <div key={s.label} style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 18, padding: 20 }}>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)", letterSpacing: ".7px", textTransform: "uppercase", fontWeight: 500, marginBottom: 8 }}>{s.label}</div>
+                        <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 700, letterSpacing: "-1px", lineHeight: 1, marginBottom: 4, color: s.color }}>{s.value}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{s.sub}</div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="bm">
-                    <span>{timeAgo(bill.created_at)}</span>
-                    {bill.due_date && <><span>·</span><span>Due {new Date(bill.due_date).toLocaleDateString("en-NG", { day: "numeric", month: "short" })}</span></>}
-                    {bill.is_recurring && <><span>·</span><span style={{ color: "#C8F135" }}>Recurring</span></>}
+
+                  {/* Charts */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+                    {/* Monthly bar chart */}
+                    <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24 }}>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: "var(--text)", letterSpacing: "-.3px", marginBottom: 4 }}>Monthly spending</div>
+                      <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 24 }}>Total bills added per month</div>
+                      <ResponsiveContainer width="100%" height={200}>
+                        <BarChart data={monthlyData} barSize={24}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#1E1E1E" vertical={false}/>
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: "#555", fontSize: 12, fontFamily: "'DM Sans',sans-serif" }}/>
+                          <YAxis axisLine={false} tickLine={false} tickFormatter={v => formatNaira(v)} tick={{ fill: "#555", fontSize: 11, fontFamily: "'DM Sans',sans-serif" }} width={60}/>
+                          <Tooltip content={<CustomTooltip/>} cursor={{ fill: "rgba(255,255,255,0.03)" }}/>
+                          <Bar dataKey="total" fill="#C8F135" radius={[6,6,0,0]}/>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    {/* Category pie */}
+                    <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24 }}>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: "var(--text)", letterSpacing: "-.3px", marginBottom: 4 }}>Spending by category</div>
+                      <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 24 }}>Where your money goes</div>
+                      {categoryData.length > 0 ? (
+                        <div style={{ display: "flex", gap: 16, alignItems: "center", justifyContent: "center" }}>
+                          <div style={{ flexShrink: 0 }}>
+                            <PieChart width={120} height={120}>
+                              <Pie data={categoryData} cx={60} cy={60} innerRadius={36} outerRadius={55} paddingAngle={3} dataKey="value">
+                                {categoryData.map((entry, i) => (
+                                  <Cell key={i} fill={entry.color} stroke="transparent"/>
+                                ))}
+                              </Pie>
+                              <Tooltip content={<CustomPieTooltip/>}/>
+                            </PieChart>
+                          </div>
+                          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+                            {categoryData.slice(0, 4).map(cat => (
+                              <div key={cat.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 12 }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                  <div style={{ width: 8, height: 8, borderRadius: 2, background: cat.color }} />
+                                  <span style={{ color: "var(--text-muted)" }}>{cat.icon} {cat.name}</span>
+                                </div>
+                                <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, color: "var(--text)" }}>{cat.percent}%</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ textAlign: "center", padding: "40px 0", color: "#555", fontSize: 13 }}>No category data</div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="bright">
-                  <div className="ba" style={{ color: statusCfg.color }}>
-                    {myShare ? formatNaira(myShare.amount_owed) : formatNaira(bill.amount)}
+
+                  {/* Settlement overview */}
+                  <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24 }}>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: "var(--text)", letterSpacing: "-.3px", marginBottom: 4 }}>Settlement overview</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 24 }}>How much has been paid vs outstanding</div>
+                    <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+                      <div style={{ position: "relative", flexShrink: 0, width: 140, height: 140 }}>
+                        <PieChart width={140} height={140}>
+                          <Pie data={[
+                            { name: "Paid", value: overallPaid },
+                            { name: "Owed", value: Math.max(overallOwed - overallPaid, 0) },
+                          ]} cx={65} cy={65} innerRadius={44} outerRadius={65} startAngle={90} endAngle={-270} paddingAngle={2} dataKey="value">
+                            <Cell fill="#22C55E" stroke="transparent"/>
+                            <Cell fill="#1E1E1E" stroke="#2A2A2A"/>
+                          </Pie>
+                        </PieChart>
+                        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+                          <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 28, fontWeight: 800, color: "var(--accent)", letterSpacing: "-1px", lineHeight: 1 }}>{overallSettlementRate}%</span>
+                          <span style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>settled</span>
+                        </div>
+                      </div>
+                      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
+                        {[
+                          { label: "Total billed", value: formatNairaFull(overallOwed), color: "#fff" },
+                          { label: "Paid", value: formatNairaFull(overallPaid), color: "#22C55E" },
+                          { label: "Outstanding", value: formatNairaFull(Math.max(overallOwed - overallPaid, 0)), color: "#FF5555" },
+                          { label: "Your rate", value: `${mySettlementRate}%`, color: "#C8F135" },
+                        ].map(s => (
+                          <div key={s.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 11 }}>
+                            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{s.label}</span>
+                            <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700, color: s.color }}>{s.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <span className="bsb" style={{ background: statusCfg.bg, color: statusCfg.color }}>
-                    {statusCfg.icon} {statusCfg.label}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                </>
+              );
+            })()}
+          </div>
+        )}
+
+        {currentTab === "analytics" && bills.length === 0 && (
+          <div style={{ padding: "80px 24px", textAlign: "center" }}>
+            <div style={{ width: 72, height: 72, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 22, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, margin: "0 auto 20px" }}>📊</div>
+            <p style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>No data yet</p>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, maxWidth: 320, margin: "0 auto" }}>
+              Add your first shared bill on the Bills tab and come back here to see spending breakdowns and settlement rates across your household.
+            </p>
+          </div>
+        )}
       </div>
+
+      {/* Only show bills list if on bills tab */}
+      {currentTab === "bills" && (
+        <>
+          {/* Admin pending verification banner */}
+          {isAdmin && pendingVerifications > 0 && (
+            <div className="pending-banner">
+              <span className="pending-banner-icon">🕐</span>
+              <span className="pending-banner-text">
+                <strong>{pendingVerifications} payment{pendingVerifications > 1 ? "s" : ""}</strong> waiting for your verification
+              </span>
+              <button className="pending-banner-btn" onClick={() => setFilter("pending")}>
+                Review now
+              </button>
+            </div>
+          )}
+
+          {/* Summary */}
+          <div className="sr">
+            {[
+              { label: "You owe", value: totalOwed > 0 ? formatNaira(totalOwed) : "Settled ✓", cls: totalOwed > 0 ? "d" : "s", delay: "0s" },
+              { label: "Verified paid", value: formatNaira(totalPaid), cls: "s", delay: "0.05s" },
+              { label: "Pending", value: String(bills.filter(b => b.shares?.find(s => s.user_id === currentUserId && s.status === "pending_verification")).length), cls: "w", delay: "0.1s" },
+            ].map(c => (
+              <div className="sc" key={c.label} style={{ animationDelay: c.delay }}>
+                <div className="sl">{c.label}</div>
+                <div className={`sv ${c.cls}`}>{c.value}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Filters */}
+          <div className="fr">
+            {([
+              { id: "all", label: "All" },
+              { id: "unpaid", label: "Unpaid" },
+              { id: "pending", label: `Pending${pendingVerifications > 0 && isAdmin ? ` (${pendingVerifications})` : ""}` },
+              { id: "verified", label: "Verified" },
+            ] as const).map(f => (
+              <button
+                key={f.id}
+                className={`ft ${filter === f.id ? "a" : ""} ${f.id === "pending" ? "pending-tab" : ""}`}
+                onClick={() => setFilter(f.id)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Bills list */}
+          <div className="bl">
+            {filteredBills.length === 0 ? (
+              <div className="es">
+                <div className="ei">🧾</div>
+                <p className="et">{filter === "all" ? "No bills yet" : `No ${filter} bills`}</p>
+                <p className="esub">{filter === "all" ? "Add your first shared bill and Divvy will split it equally." : `No ${filter} bills right now.`}</p>
+              </div>
+            ) : filteredBills.map((bill, i) => {
+              const myShare = bill.shares?.find(s => s.user_id === currentUserId);
+              const status = myShare?.status || "unpaid";
+              const statusCfg = STATUS_CONFIG[status];
+              const catInfo = CATEGORIES.find(c => c.value === bill.category);
+              const pendingCount = bill.shares?.filter(s => s.status === "pending_verification").length || 0;
+
+              return (
+                <div
+                  key={bill.id}
+                  className={`bc ${selectedBill?.id === bill.id ? "sel" : ""}`}
+                  style={{ animationDelay: `${i * 0.04}s` }}
+                  onClick={() => { setSelectedBill(bill); setPanelOpen(false); }}
+                >
+                  <div className="bci" style={{ background: CAT_COLORS[bill.category] || "rgba(255,255,255,.06)" }}>
+                    {catInfo?.icon || "📋"}
+                  </div>
+                  <div className="bi">
+                    <div className="bn">
+                      {bill.title}
+                      {isAdmin && pendingCount > 0 && (
+                        <span style={{ marginLeft: 8, padding: "2px 7px", background: "rgba(245,158,11,.1)", border: "1px solid rgba(245,158,11,.25)", borderRadius: 6, fontSize: 10, fontWeight: 600, color: "#F59E0B" }}>
+                          {pendingCount} pending
+                        </span>
+                      )}
+                    </div>
+                    <div className="bm">
+                      <span>{timeAgo(bill.created_at)}</span>
+                      {bill.due_date && <><span>·</span><span>Due {new Date(bill.due_date).toLocaleDateString("en-NG", { day: "numeric", month: "short" })}</span></>}
+                      {bill.is_recurring && <><span>·</span><span style={{ color: "#C8F135" }}>Recurring</span></>}
+                    </div>
+                  </div>
+                  <div className="bright">
+                    <div className="ba" style={{ color: statusCfg.color }}>
+                      {myShare ? formatNaira(myShare.amount_owed) : formatNaira(bill.amount)}
+                    </div>
+                    <span className="bsb" style={{ background: statusCfg.bg, color: statusCfg.color }}>
+                      {statusCfg.icon} {statusCfg.label}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* ── ADD BILL PANEL ── */}
       {panelOpen && (

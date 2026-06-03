@@ -406,7 +406,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         {/* Mobile bottom nav */}
         <nav className="bottom-nav">
-          {navItems.map((item) => {
+          {navItems.filter((item) => item.label !== "Analytics").map((item) => {
             const active = pathname === item.href ||
               (item.href !== "/dashboard" && pathname.startsWith(item.href));
             return (
