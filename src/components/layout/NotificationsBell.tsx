@@ -202,15 +202,61 @@ export default function NotificationsBell() {
         .nb-empty-icon { font-size: 32px; margin-bottom: 12px; }
         .nb-empty-text { font-size: 13px; color: #555; }
 
+        @media (max-width: 1024px) {
+          .nb-dropdown { max-width: 360px; }
+          .nb-header-title { font-size: 13px; }
+          .nb-mark-all { font-size: 12px; }
+          .nb-item-text { font-size: 12px; }
+          .nb-item-time { font-size: 11px; }
+        }
+
+        @media (max-width: 900px) {
+          .nb-dropdown { max-width: 320px; right: 16px; }
+          .nb-header-title { font-size: 12px; }
+          .nb-mark-all { font-size: 11px; padding: 6px 10px; }
+          .nb-item { padding: 10px 12px; }
+          .nb-item-text { font-size: 12px; }
+          .nb-item-time { font-size: 10px; }
+          .nb-empty-icon { font-size: 28px; }
+          .nb-empty-text { font-size: 12px; }
+        }
+
+        @media (max-width: 640px) {
+          .nb-dropdown { max-width: 300px; left: 12px; right: 12px; top: 64px; }
+          .nb-header { padding: 12px 14px; }
+          .nb-header-title { font-size: 11px; }
+          .nb-mark-all { font-size: 10px; padding: 5px 8px; }
+          .nb-list { max-height: calc(100vh - 180px); }
+          .nb-item { padding: 9px 11px; border-radius: 10px; }
+          .nb-item-icon { width: 32px; height: 32px; font-size: 16px; }
+          .nb-item-text { font-size: 11px; margin-bottom: 2px; }
+          .nb-item-time { font-size: 9px; }
+          .nb-empty { padding: 40px 20px; }
+          .nb-empty-icon { font-size: 24px; margin-bottom: 8px; }
+          .nb-empty-text { font-size: 11px; }
+        }
+
         @media (max-width: 480px) {
           .nb-dropdown {
             position: fixed;
-            top: 80px;
-            left: 16px;
-            right: 16px;
+            top: 56px;
+            left: 8px;
+            right: 8px;
             width: auto;
-            max-height: calc(100vh - 120px);
+            max-height: calc(100vh - 100px);
+            max-width: none;
           }
+          .nb-header { padding: 10px 12px; gap: 6px; }
+          .nb-header-title { font-size: 10px; }
+          .nb-mark-all { font-size: 9px; padding: 4px 6px; border-radius: 6px; }
+          .nb-list { max-height: calc(100vh - 150px); }
+          .nb-item { padding: 8px 10px; border-radius: 9px; gap: 8px; }
+          .nb-item-icon { width: 28px; height: 28px; font-size: 13px; border-radius: 8px; }
+          .nb-item-text { font-size: 10px; margin-bottom: 1px; }
+          .nb-item-time { font-size: 8px; }
+          .nb-empty { padding: 32px 16px; }
+          .nb-empty-icon { font-size: 20px; margin-bottom: 6px; }
+          .nb-empty-text { font-size: 10px; }
         }
       `}</style>
 

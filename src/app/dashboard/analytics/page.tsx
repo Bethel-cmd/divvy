@@ -391,19 +391,121 @@ export default function AnalyticsPage() {
 
         @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-        @media(max-width:900px) {
-          .stat-row { grid-template-columns:repeat(2,1fr); }
-          .chart-row { grid-template-columns:1fr; }
+        @media(max-width:1024px) {
+          .an-topbar { padding:32px 32px 24px; }
+          .an-grid { padding:24px 32px 40px; }
+          .stat-row { gap:14px; }
+          .an-stat { padding:18px; }
+          .an-stat-label { font-size:10px; margin-bottom:6px; }
+          .an-stat-value { font-size:20px; }
+          .chart-panel { padding:20px; }
+          .chart-panel-title { font-size:14px; }
         }
-        @media(max-width:768px) {
-          .an-topbar { padding:28px 20px 20px; flex-direction:column; }
-          .an-grid { padding:20px 20px 40px; }
-          .stat-row { grid-template-columns:1fr 1fr; }
-          .chart-panel { padding:16px; }
-          .settlement-wrap { flex-direction:column; align-items:center; gap:20px; }
+
+        @media(max-width:900px) {
+          .an-topbar { padding:24px 24px 20px; flex-direction:column; }
+          .an-title { font-size:22px; }
+          .an-sub { font-size:12px; }
+          .an-grid { padding:20px 24px 40px; gap:16px; }
+          .stat-row { grid-template-columns:repeat(2,1fr); gap:12px; }
+          .an-stat { padding:16px; padding: 14px; border-radius: 14px; }
+          .an-stat-label { font-size:9px; margin-bottom:4px; }
+          .an-stat-value { font-size:18px; }
+          .an-stat-sub { font-size:10px; }
+          .chart-row { grid-template-columns:1fr; gap:16px; }
+          .chart-panel { padding:16px; border-radius:16px; }
+          .chart-panel-title { font-size:13px; margin-bottom:2px; }
+          .chart-panel-sub { font-size:11px; margin-bottom:16px; }
+          .cat-legend { gap:8px; margin-top:6px; }
+          .cat-legend-row { padding:8px 10px; gap:10px; border-radius:9px; }
+          .cat-dot { width:8px; height:8px; }
+          .cat-name { font-size:12px; }
+          .cat-amount { font-size:12px; }
+          .cat-pct { font-size:10px; margin-left:4px; }
+          .settlement-wrap { flex-direction:column; align-items:flex-start; gap:16px; }
+          .ring-wrap { width:120px; height:120px; }
+          .ring-pct { font-size:24px; }
+          .ring-label { font-size:9px; }
           .settlement-stats { width:100%; }
-          .person-row { padding:12px 14px; gap:10px; }
-          .cat-legend-row { padding:8px 10px; }
+          .sstat-row { padding:8px 10px; gap:8px; border-radius:9px; }
+          .sstat-label { font-size:11px; }
+          .sstat-value { font-size:12px; }
+          .person-row { padding:11px 12px; gap:10px; border-radius:11px; }
+          .person-avatar { width:32px; height:32px; font-size:11px; }
+          .person-name { font-size:12px; margin-bottom:4px; }
+          .you-badge { font-size:8px; padding:0 4px; }
+          .person-paid { font-size:12px; }
+          .person-owed { font-size:10px; margin-top:1px; }
+        }
+
+        @media(max-width:640px) {
+          .an-topbar { padding:18px 16px 14px; }
+          .an-title { font-size:20px; letter-spacing:-0.3px; }
+          .an-sub { font-size:11px; margin-bottom:8px; }
+          .an-grid { padding:12px 16px 40px; gap:12px; }
+          .stat-row { grid-template-columns:1fr 1fr; gap:10px; }
+          .an-stat { padding:12px; border-radius:12px; }
+          .an-stat-label { font-size:8px; letter-spacing:0.4px; margin-bottom:3px; }
+          .an-stat-value { font-size:16px; }
+          .an-stat-sub { font-size:9px; }
+          .chart-row { gap:12px; }
+          .chart-panel { padding:14px; border-radius:14px; }
+          .chart-panel-title { font-size:12px; margin-bottom:1px; }
+          .chart-panel-sub { font-size:10px; margin-bottom:12px; }
+          .cat-legend { gap:6px; margin-top:4px; }
+          .cat-legend-row { padding:7px 8px; border-radius:8px; }
+          .cat-dot { width:6px; height:6px; border-radius:1px; }
+          .cat-name { font-size:11px; }
+          .cat-amount { font-size:11px; }
+          .cat-pct { font-size:9px; }
+          .settlement-wrap { gap:12px; }
+          .ring-wrap { width:100px; height:100px; }
+          .ring-pct { font-size:20px; }
+          .ring-label { font-size:8px; margin-top:1px; }
+          .sstat-row { padding:7px 8px; }
+          .sstat-label { font-size:10px; }
+          .sstat-value { font-size:11px; }
+          .person-row { padding:10px 10px; gap:8px; border-radius:10px; }
+          .person-avatar { width:28px; height:28px; font-size:10px; }
+          .person-name { font-size:11px; margin-bottom:3px; gap:4px; }
+          .person-bar-wrap { height:3px; }
+          .person-paid { font-size:11px; }
+          .person-owed { font-size:9px; }
+        }
+
+        @media(max-width:480px) {
+          .an-topbar { padding:14px 12px 10px; }
+          .an-title { font-size:18px; letter-spacing:-0.2px; }
+          .an-sub { font-size:10px; }
+          .an-grid { padding:10px 12px 40px; gap:10px; }
+          .stat-row { grid-template-columns:1fr 1fr; gap:8px; }
+          .an-stat { padding:10px; border-radius:10px; }
+          .an-stat-label { font-size:7px; margin-bottom:2px; }
+          .an-stat-value { font-size:14px; }
+          .an-stat-sub { font-size:8px; }
+          .chart-row { gap:10px; }
+          .chart-panel { padding:12px; border-radius:12px; }
+          .chart-panel-title { font-size:11px; }
+          .chart-panel-sub { font-size:9px; margin-bottom:10px; }
+          .cat-legend { gap:4px; }
+          .cat-legend-row { padding:6px 7px; border-radius:7px; }
+          .cat-name { font-size:10px; }
+          .cat-amount { font-size:10px; }
+          .cat-pct { font-size:8px; }
+          .ring-wrap { width:80px; height:80px; }
+          .ring-pct { font-size:16px; }
+          .ring-label { font-size:7px; }
+          .sstat-row { padding:6px 7px; }
+          .sstat-label { font-size:9px; }
+          .sstat-value { font-size:10px; }
+          .person-row { padding:8px 9px; gap:6px; border-radius:9px; }
+          .person-avatar { width:24px; height:24px; font-size:9px; }
+          .person-name { font-size:10px; margin-bottom:2px; }
+          .person-paid { font-size:10px; }
+          .person-owed { font-size:8px; }
+          .an-empty-icon { width:56px; height:56px; font-size:24px; }
+          .an-empty-title { font-size:15px; }
+          .an-empty-sub { font-size:11px; max-width:280px; }
         }
       `}</style>
 

@@ -218,6 +218,61 @@ export default function DashboardPage() {
           .recent-section { grid-column: 1 / -1; }
         }
 
+        @media (max-width: 640px) {
+          .dash { padding: 18px 16px 40px; margin-bottom: 20px; }
+          .dash-greeting { font-size: 12px; }
+          .dash-username { font-size: 22px; letter-spacing: -0.4px; margin-bottom: 16px; }
+          .dash-topbar { margin-bottom: 20px; }
+          .dash-grid { gap: 12px; }
+          .balance-card { padding: 20px 16px; border-radius: 18px; }
+          .balance-label { font-size: 10px; margin-bottom: 6px; }
+          .balance-amount { font-size: 32px; }
+          .balance-amount .currency { font-size: 18px; }
+          .balance-sub { font-size: 12px; }
+          .balance-inner { gap: 12px; flex-direction: column; align-items: flex-start; }
+          .balance-actions { gap: 8px; }
+          .fund-btn, .outline-btn { padding: 11px 16px; font-size: 12px; gap: 6px; }
+          .setup-card { padding: 16px 14px; border-radius: 16px; }
+          .setup-title { font-size: 15px; margin-bottom: 4px; }
+          .setup-sub { font-size: 12px; margin-bottom: 12px; }
+          .setup-btn { padding: 11px 16px; font-size: 12px; }
+          .section-title { font-size: 15px; }
+          .see-all { font-size: 12px; }
+          .bill-row { padding: 12px 12px; gap: 10px; border-radius: 12px; }
+          .bill-icon { width: 36px; height: 36px; font-size: 16px; border-radius: 10px; }
+          .bill-title { font-size: 13px; }
+          .bill-date { font-size: 11px; }
+          .bill-amount { font-size: 13px; }
+          .notif-btn { width: 36px; height: 36px; }
+        }
+
+        @media (max-width: 480px) {
+          .dash { padding: 16px 12px 40px; }
+          .dash-greeting { font-size: 11px; }
+          .dash-username { font-size: 20px; margin-bottom: 14px; }
+          .notif-btn { width: 32px; height: 32px; border-radius: 8px; }
+          .balance-card { padding: 16px 12px; border-radius: 14px; }
+          .balance-label { font-size: 9px; letter-spacing: 0.5px; margin-bottom: 4px; }
+          .balance-amount { font-size: 28px; margin-bottom: 4px; }
+          .balance-amount .currency { font-size: 16px; }
+          .balance-sub { font-size: 11px; }
+          .fund-btn, .outline-btn { padding: 10px 14px; font-size: 11px; gap: 4px; }
+          .setup-card { padding: 12px 10px; border-radius: 12px; }
+          .setup-title { font-size: 14px; margin-bottom: 2px; }
+          .setup-sub { font-size: 11px; margin-bottom: 10px; }
+          .setup-btn { padding: 10px 14px; font-size: 11px; }
+          .section-title { font-size: 14px; }
+          .bill-row { padding: 10px 10px; gap: 8px; }
+          .bill-icon { width: 32px; height: 32px; font-size: 14px; }
+          .bill-title { font-size: 12px; }
+          .bill-date { font-size: 10px; }
+          .bill-amount { font-size: 12px; }
+          .empty { padding: 40px 16px; }
+          .empty-emoji { font-size: 32px; }
+          .empty-title { font-size: 14px; }
+          .empty-sub { font-size: 12px; }
+        }
+
         /* ── Balance card ── */
         .balance-card {
           background: var(--surface-2);

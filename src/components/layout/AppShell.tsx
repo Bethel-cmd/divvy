@@ -320,19 +320,56 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         .bnav-label.inactive { color: var(--text-muted); }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+          .app-header { padding: 0 32px; }
+        }
+
+        @media (max-width: 900px) {
           .sidebar { display: none; }
           .main-content {
             margin-left: 0;
             padding-bottom: 80px;
           }
           .app-header {
-            padding: 0 20px;
+            padding: 0 24px;
           }
           .header-mobile-logo {
             display: flex;
           }
           .bottom-nav { display: flex; }
+        }
+
+        @media (max-width: 640px) {
+          .app-header {
+            padding: 0 18px;
+            height: 56px;
+            min-height: 56px;
+          }
+          .header-logo-text {
+            font-size: 14px;
+          }
+          .header-logo-mark {
+            width: 24px; height: 24px;
+          }
+          .bnav-item { padding: 6px 12px; gap: 3px; }
+          .bnav-label { font-size: 9px; }
+        }
+
+        @media (max-width: 480px) {
+          .app-header {
+            padding: 0 16px;
+            height: 56px;
+            min-height: 56px;
+          }
+          .header-logo-text {
+            font-size: 13px;
+          }
+          .header-logo-mark {
+            width: 22px; height: 22px;
+          }
+          .bnav-item { padding: 4px 8px; gap: 2px; }
+          .bnav-label { font-size: 8px; }
+          .bnav-dot { width: 3px; height: 3px; }
         }
       `}</style>
 

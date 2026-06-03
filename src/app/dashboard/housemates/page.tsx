@@ -490,17 +490,104 @@ export default function HousematesPage() {
         .modal-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* Responsive */
-        @media (max-width: 900px) {
-          .hm-content { grid-template-columns: 1fr; }
-          .sidebar-panels { order: -1; }
+        @media (max-width: 1024px) {
+          .hm-topbar { padding: 32px 32px; gap: 16px; }
+          .hm-content { padding: 24px 32px; gap: 20px; }
+          .invite-card { padding: 16px 20px; }
+          .invite-label { font-size: 11px; }
+          .invite-code { font-size: 18px; }
+          .hm-title { font-size: 24px; }
+          .member-row { padding: 13px 14px; }
+          .modal-card { padding: 26px; }
         }
 
-        @media (max-width: 768px) {
-          .hm-topbar { flex-direction: column; padding: 28px 20px; gap: 20px; }
-          .hm-content { padding: 20px; }
-          .invite-card { width: 100%; justify-content: space-between; }
-          .member-row { padding: 14px 16px; }
-          .modal-card { padding: 24px; margin: 16px; }
+        @media (max-width: 900px) {
+          .hm-content { grid-template-columns: 1fr; gap: 16px; }
+          .sidebar-panels { order: -1; }
+          .hm-topbar { padding: 24px 24px; flex-direction: column; gap: 16px; }
+          .hm-content { padding: 20px 24px; }
+          .hm-title { font-size: 22px; margin-bottom: 2px; }
+          .hm-subtitle { font-size: 12px; }
+          .invite-card { width: 100%; padding: 14px 16px; border-radius: 12px; }
+          .invite-label { font-size: 10px; margin-bottom: 4px; }
+          .invite-code { font-size: 16px; letter-spacing: 1px; }
+          .copy-btn { padding: 7px 12px; font-size: 11px; border-radius: 8px; }
+          .panel-header { padding: 12px 0; }
+          .panel-title { font-size: 14px; }
+          .member-count { font-size: 11px; }
+          .member-row { padding: 11px 12px; gap: 10px; border-radius: 12px; }
+          .member-avatar { width: 36px; height: 36px; font-size: 13px; border-radius: 10px; }
+          .member-name { font-size: 12px; margin-bottom: 1px; }
+          .member-sub { font-size: 10px; }
+          .member-btn { width: 28px; height: 28px; min-width: 28px; }
+          .member-btn svg { width: 14px; height: 14px; }
+          .modal-card { padding: 22px; margin: 16px; border-radius: 18px; }
+          .modal-title { font-size: 16px; margin-bottom: 6px; }
+          .modal-sub { font-size: 12px; }
+          .modal-input { padding: 11px 11px; font-size: 13px; }
+          .modal-actions { gap: 8px; margin-top: 6px; }
+          .modal-btn { padding: 10px; font-size: 12px; }
+        }
+
+        @media (max-width: 640px) {
+          .hm-root { min-height: 100vh; }
+          .hm-topbar { padding: 18px 16px; gap: 12px; align-items: stretch; }
+          .hm-content { padding: 12px 16px; gap: 12px; }
+          .hm-title { font-size: 20px; letter-spacing: -0.3px; }
+          .hm-subtitle { font-size: 11px; margin-bottom: 8px; }
+          .invite-card { padding: 12px 14px; gap: 10px; flex-wrap: wrap; }
+          .invite-label { font-size: 9px; letter-spacing: 0.3px; margin-bottom: 2px; }
+          .invite-code { font-size: 14px; letter-spacing: 0; }
+          .copy-btn { padding: 6px 10px; font-size: 10px; border-radius: 7px; }
+          .panel-header { padding: 10px 0; }
+          .panel-title { font-size: 13px; }
+          .member-count { font-size: 10px; }
+          .member-row { padding: 10px 11px; gap: 8px; border-radius: 10px; }
+          .member-avatar { width: 32px; height: 32px; font-size: 11px; border-radius: 8px; }
+          .member-name { font-size: 11px; }
+          .member-sub { font-size: 9px; }
+          .member-btn { width: 24px; height: 24px; }
+          .member-btn svg { width: 12px; height: 12px; }
+          .remove-card { padding: 12px 0; }
+          .remove-label { font-size: 12px; }
+          .remove-sub { font-size: 10px; margin-bottom: 8px; }
+          .remove-btn { padding: 8px 12px; font-size: 11px; border-radius: 8px; }
+          .modal-card { padding: 18px; margin: 12px; border-radius: 16px; max-width: 85vw; }
+          .modal-title { font-size: 14px; margin-bottom: 4px; }
+          .modal-sub { font-size: 11px; margin-bottom: 12px; }
+          .modal-label { font-size: 9px; margin-bottom: 3px; }
+          .modal-input { padding: 10px 10px; font-size: 12px; border-radius: 8px; }
+          .modal-actions { gap: 6px; }
+          .modal-btn { padding: 9px; font-size: 11px; }
+        }
+
+        @media (max-width: 480px) {
+          .hm-topbar { padding: 14px 12px; }
+          .hm-content { padding: 10px 12px; gap: 10px; }
+          .hm-title { font-size: 18px; }
+          .hm-subtitle { font-size: 10px; }
+          .invite-card { padding: 10px 12px; gap: 8px; border-radius: 10px; }
+          .invite-label { font-size: 8px; margin-bottom: 1px; }
+          .invite-code { font-size: 12px; letter-spacing: -0.5px; }
+          .copy-btn { padding: 5px 8px; font-size: 9px; border-radius: 6px; }
+          .panel-header { padding: 8px 0; }
+          .panel-title { font-size: 12px; }
+          .member-count { font-size: 9px; }
+          .member-row { padding: 8px 10px; gap: 6px; border-radius: 9px; }
+          .member-avatar { width: 28px; height: 28px; font-size: 10px; }
+          .member-name { font-size: 10px; }
+          .member-sub { font-size: 8px; }
+          .member-btn { width: 20px; height: 20px; }
+          .member-btn svg { width: 10px; height: 10px; }
+          .remove-card { padding: 10px 0; }
+          .remove-label { font-size: 11px; }
+          .remove-sub { font-size: 9px; }
+          .remove-btn { padding: 7px 10px; font-size: 10px; }
+          .modal-card { padding: 16px; margin: 10px; border-radius: 14px; }
+          .modal-title { font-size: 13px; }
+          .modal-sub { font-size: 10px; }
+          .modal-input { padding: 9px; font-size: 11px; }
+          .modal-btn { padding: 8px; font-size: 10px; }
         }
       `}</style>
 

@@ -364,14 +364,85 @@ export default function OnboardingPage() {
         .code-note strong { color: #888; }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+          .ob-left { padding: 40px 32px; }
+          .ob-left-heading { font-size: 32px; }
+          .ob-right { padding: 40px 32px; }
+          .ob-card { max-width: 440px; }
+          .ob-title { font-size: 26px; }
+          .primary-btn { padding: 14px; font-size: 14px; }
+          .field-input { padding: 13px 14px; font-size: 14px; margin-bottom: 18px; }
+          .code-box { padding: 18px 20px; }
+          .code-value { font-size: 26px; }
+        }
+
+        @media (max-width: 900px) {
           .ob-left { display: none; }
-          .ob-right { padding: 32px 24px; align-items: flex-start; padding-top: 56px; }
-          .choose-grid { grid-template-columns: 1fr; }
+          .ob-root { flex-direction: column; }
+          .ob-right { padding: 32px 24px; align-items: flex-start; padding-top: 48px; }
+          .choose-grid { grid-template-columns: 1fr; gap: 12px; }
           .ob-card { max-width: 100%; }
-          .ob-title { font-size: 24px; }
-          .code-box { padding: 16px; flex-direction: column; align-items: stretch; gap: 12px; }
-          .code-value { font-size: 24px; text-align: center; }
+          .ob-title { font-size: 22px; margin-bottom: 6px; }
+          .ob-sub { font-size: 13px; margin-bottom: 24px; }
+          .choose-option { padding: 16px 14px; }
+          .choose-label { font-size: 15px; margin-bottom: 4px; }
+          .choose-desc { font-size: 12px; }
+          .field-label { font-size: 10px; margin-bottom: 5px; }
+          .field-input { padding: 12px 12px; font-size: 14px; margin-bottom: 16px; border-radius: 10px; }
+          .ob-hint { font-size: 11px; margin-top: -10px; margin-bottom: 16px; }
+          .primary-btn { padding: 13px; font-size: 13px; border-radius: 11px; }
+          .code-box { padding: 16px; gap: 10px; }
+          .code-value { font-size: 24px; letter-spacing: 4px; }
+          .copy-btn { padding: 7px 12px; font-size: 12px; border-radius: 8px; }
+          .success-icon { width: 56px; height: 56px; font-size: 26px; margin-bottom: 20px; }
+          .code-note { font-size: 12px; margin-bottom: 20px; }
+          .ob-back { font-size: 12px; margin-bottom: 24px; gap: 5px; }
+          .error-msg { font-size: 12px; padding: 10px 12px; }
+        }
+
+        @media (max-width: 640px) {
+          .ob-right { padding: 24px 18px; padding-top: 40px; }
+          .ob-card { max-width: 100%; }
+          .ob-title { font-size: 20px; letter-spacing: -0.4px; margin-bottom: 4px; }
+          .ob-sub { font-size: 12px; margin-bottom: 20px; line-height: 1.6; }
+          .choose-grid { gap: 10px; }
+          .choose-option { padding: 14px 12px; border-radius: 12px; }
+          .choose-label { font-size: 14px; margin-bottom: 3px; }
+          .choose-desc { font-size: 11px; }
+          .field-label { font-size: 9px; letter-spacing: 0.4px; margin-bottom: 4px; }
+          .field-input { padding: 11px 11px; font-size: 13px; margin-bottom: 14px; border-radius: 9px; }
+          .ob-hint { font-size: 10px; margin-top: -8px; margin-bottom: 14px; }
+          .primary-btn { padding: 12px; font-size: 12px; border-radius: 10px; letter-spacing: 0; }
+          .code-box { padding: 14px; gap: 8px; border-radius: 12px; }
+          .code-value { font-size: 22px; letter-spacing: 3px; }
+          .copy-btn { padding: 6px 10px; font-size: 11px; border-radius: 7px; }
+          .success-icon { width: 48px; height: 48px; font-size: 24px; margin-bottom: 16px; }
+          .code-note { font-size: 11px; margin-bottom: 16px; line-height: 1.5; }
+          .ob-back { font-size: 11px; margin-bottom: 20px; }
+          .error-msg { font-size: 11px; padding: 9px 10px; }
+          .spinner { width: 12px; height: 12px; margin-right: 6px; }
+        }
+
+        @media (max-width: 480px) {
+          .ob-right { padding: 18px 14px; padding-top: 32px; }
+          .ob-title { font-size: 18px; letter-spacing: -0.3px; }
+          .ob-sub { font-size: 11px; margin-bottom: 16px; }
+          .choose-grid { gap: 8px; }
+          .choose-option { padding: 12px 10px; border-radius: 10px; gap: 10px; }
+          .choose-icon { font-size: 20px; }
+          .choose-label { font-size: 13px; margin-bottom: 2px; }
+          .choose-desc { font-size: 10px; }
+          .field-label { font-size: 8px; margin-bottom: 3px; }
+          .field-input { padding: 10px 10px; font-size: 12px; margin-bottom: 12px; border-radius: 8px; }
+          .ob-hint { font-size: 9px; margin-top: -6px; margin-bottom: 12px; }
+          .primary-btn { padding: 11px; font-size: 11px; border-radius: 9px; }
+          .code-box { padding: 12px; gap: 6px; border-radius: 10px; flex-direction: column; }
+          .code-value { font-size: 20px; letter-spacing: 2px; text-align: center; }
+          .copy-btn { width: 100%; padding: 8px; font-size: 10px; border-radius: 7px; }
+          .success-icon { width: 44px; height: 44px; font-size: 22px; margin-bottom: 14px; }
+          .code-note { font-size: 10px; margin-bottom: 14px; }
+          .ob-back { font-size: 10px; margin-bottom: 16px; }
+          .error-msg { font-size: 10px; padding: 8px 10px; }
         }
       `}</style>
 

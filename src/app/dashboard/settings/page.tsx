@@ -287,34 +287,163 @@ export default function SettingsPage() {
 
         .st-mobile-nav { display:none; }
 
+        @media(max-width:1024px) {
+          .st-root { padding:32px; }
+          .st-topbar { padding:24px 0 20px; }
+          .st-title { font-size:24px; }
+          .st-body { gap:20px; }
+          .st-nav { width:200px; }
+          .avatar-circle { width:56px; height:56px; font-size:18px; }
+          .theme-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+          .contact-grid { grid-template-columns:1fr 1fr; gap:10px; }
+        }
+
         @media(max-width:900px) {
+          .st-root { padding:24px; }
           .st-body { flex-direction:column; }
-          .st-nav { display:none; }
-          .st-mobile-nav {
-            display:flex; flex-direction:column;
-            border-bottom:1px solid var(--border);
-          }
-          .st-mob-row {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:13px 16px; border-bottom:1px solid var(--border);
-            cursor:pointer; transition:background .15s;
-          }
+          .st-nav { display:none; width:100%; }
+          .st-mobile-nav { display:flex; flex-direction:column; border-bottom:1px solid var(--border); margin-bottom:16px; }
+          .st-mob-row { display:flex; align-items:center; justify-content:space-between; padding:12px 12px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
           .st-mob-row:last-child { border-bottom:none; }
           .st-mob-row:hover { background:var(--surface-2); }
           .st-mob-row.active { background:rgba(200,241,53,0.05); }
-          .st-mob-left { display:flex; align-items:center; gap:10px; }
-          .st-mob-icon { width:30px; height:30px; border-radius:8px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:14px; }
+          .st-mob-left { display:flex; align-items:center; gap:8px; }
+          .st-mob-icon { width:28px; height:28px; border-radius:7px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:13px; }
           .st-mob-row.active .st-mob-icon { background:rgba(200,241,53,0.1); }
-          .st-mob-label { font-size:13px; font-weight:500; color:var(--text-muted); }
+          .st-mob-label { font-size:12px; font-weight:500; color:var(--text-muted); }
           .st-mob-row.active .st-mob-label { color:var(--text); }
-          .st-mob-chevron { color:var(--text-muted); transition:transform .2s; }
+          .st-mob-chevron { color:var(--text-muted); transition:transform .2s; font-size:14px; }
           .st-mob-chevron.open { transform:rotate(180deg); }
-          .st-content { padding:16px; max-width:100%; }
-          .st-topbar { padding:20px 16px 16px; }
-          .theme-grid { grid-template-columns:1fr 1fr; }
-          .contact-grid { grid-template-columns:1fr; }
-          .st-section-title { font-size:16px; }
-          .avatar-circle { width:52px; height:52px; font-size:16px; border-radius:16px; }
+          .st-content { padding:12px 0; max-width:100%; }
+          .st-topbar { padding:16px 0 12px; }
+          .st-title { font-size:20px; }
+          .st-sub { font-size:12px; }
+          .st-section-title { font-size:15px; margin-bottom:6px; }
+          .st-section-sub { font-size:12px; margin-bottom:16px; }
+          .st-card { padding:0; border:none; margin-bottom:16px; }
+          .st-card-header { padding:14px 0; border-bottom:1px solid var(--border); }
+          .st-card-title { font-size:14px; }
+          .st-card-body { padding:14px 0; }
+          .avatar-circle { width:48px; height:48px; font-size:16px; border-radius:12px; }
+          .avatar-name { font-size:14px; }
+          .avatar-email { font-size:11px; }
+          .flab { font-size:10px; margin-bottom:4px; }
+          .fi { padding:10px 10px; font-size:13px; margin-bottom:12px; border-radius:9px; }
+          .save-btn { padding:10px 16px; font-size:12px; border-radius:9px; }
+          .save-msg { font-size:12px; margin-left:8px; }
+          .theme-grid { grid-template-columns:1fr 1fr; gap:8px; }
+          .theme-card { padding:12px; border-radius:11px; }
+          .theme-preview { height:40px; margin-bottom:8px; padding:6px; }
+          .theme-name { font-size:12px; margin-bottom:1px; }
+          .theme-desc { font-size:10px; }
+          .toggle-row { padding:10px 0; gap:12px; }
+          .toggle-label { font-size:13px; margin-bottom:1px; }
+          .toggle-desc { font-size:11px; }
+          .tog { width:40px; height:20px; }
+          .tt { width:16px; height:16px; top:2px; left:2px; }
+          .tog.on .tt { transform:translateX(20px); }
+          .contact-grid { grid-template-columns:1fr; gap:8px; }
+          .contact-card { padding:12px; gap:10px; }
+          .contact-icon { font-size:18px; }
+          .contact-label { font-size:12px; margin-bottom:0; }
+          .contact-sub { font-size:10px; }
+          .signout-card { padding:14px 16px; margin-top:6px; flex-direction:column; gap:12px; align-items:flex-start; }
+          .signout-btn { width:100%; }
+          .danger-zone { padding:14px; }
+          .danger-title { font-size:12px; margin-bottom:4px; }
+          .danger-sub { font-size:11px; margin-bottom:10px; }
+          .danger-btn { padding:8px 12px; font-size:12px; }
+          .faq-q { padding:12px 0; gap:10px; }
+          .faq-q-text { font-size:13px; }
+          .faq-a { font-size:12px; padding-bottom:12px; }
+          .faq-chevron { font-size:14px; }
+          .pw-msg { padding:8px 10px; font-size:12px; margin-bottom:12px; border-radius:8px; }
+        }
+
+        @media(max-width:640px) {
+          .st-root { padding:16px; }
+          .st-topbar { padding:12px 0 10px; }
+          .st-title { font-size:18px; letter-spacing:-0.3px; }
+          .st-sub { font-size:11px; margin-bottom:12px; }
+          .st-mobile-nav { margin-bottom:12px; }
+          .st-mob-row { padding:10px 10px; }
+          .st-mob-icon { width:24px; height:24px; font-size:12px; }
+          .st-mob-label { font-size:11px; }
+          .st-mob-chevron { font-size:13px; }
+          .st-content { padding:8px 0; }
+          .st-section-title { font-size:14px; margin-bottom:4px; }
+          .st-section-sub { font-size:11px; margin-bottom:12px; }
+          .st-card-header { padding:12px 0; }
+          .st-card-title { font-size:13px; }
+          .st-card-body { padding:12px 0; }
+          .avatar-row { flex-direction:column; align-items:flex-start; gap:12px; }
+          .avatar-circle { width:40px; height:40px; font-size:14px; border-radius:10px; }
+          .avatar-name { font-size:13px; }
+          .avatar-email { font-size:10px; }
+          .flab { font-size:9px; margin-bottom:3px; }
+          .fi { padding:9px 9px; font-size:13px; margin-bottom:10px; border-radius:8px; }
+          .save-btn { padding:10px 14px; font-size:11px; border-radius:8px; }
+          .theme-grid { grid-template-columns:1fr 1fr; gap:6px; }
+          .theme-card { padding:10px; border-radius:10px; }
+          .theme-preview { height:36px; margin-bottom:6px; padding:4px; }
+          .theme-name { font-size:11px; margin-bottom:0; }
+          .theme-desc { font-size:9px; }
+          .toggle-row { padding:8px 0; gap:8px; }
+          .toggle-label { font-size:12px; }
+          .toggle-desc { font-size:10px; }
+          .compact-row { padding:8px 0; }
+          .compact-label { font-size:12px; }
+          .compact-sub { font-size:10px; }
+          .contact-grid { gap:6px; }
+          .contact-card { padding:10px; gap:8px; }
+          .contact-icon { font-size:16px; }
+          .contact-label { font-size:11px; }
+          .contact-sub { font-size:9px; }
+          .signout-card { padding:12px; }
+          .signout-title { font-size:13px; }
+          .signout-sub { font-size:11px; }
+          .signout-btn { width:100%; padding:9px; font-size:11px; }
+          .danger-zone { padding:12px; }
+          .danger-title { font-size:11px; margin-bottom:3px; }
+          .danger-sub { font-size:10px; margin-bottom:8px; }
+          .danger-btn { padding:7px 10px; font-size:11px; }
+          .faq-item { border-bottom:1px solid var(--border); }
+          .faq-q { padding:10px 0; gap:8px; }
+          .faq-q-text { font-size:12px; }
+          .faq-a { font-size:11px; padding-bottom:10px; }
+          .faq-chevron { font-size:13px; }
+          .pw-msg { padding:6px 8px; font-size:11px; margin-bottom:10px; }
+        }
+
+        @media(max-width:480px) {
+          .st-root { padding:12px; }
+          .st-topbar { padding:10px 0 8px; }
+          .st-title { font-size:16px; }
+          .st-sub { font-size:10px; }
+          .st-mob-row { padding:8px 8px; }
+          .st-mob-icon { width:22px; height:22px; font-size:11px; }
+          .st-mob-label { font-size:10px; }
+          .st-section-title { font-size:13px; margin-bottom:3px; }
+          .st-section-sub { font-size:10px; margin-bottom:10px; }
+          .st-card-header { padding:10px 0; }
+          .st-card-title { font-size:12px; }
+          .st-card-body { padding:10px 0; }
+          .avatar-circle { width:36px; height:36px; font-size:12px; }
+          .flab { font-size:8px; margin-bottom:2px; }
+          .fi { padding:8px 8px; font-size:12px; margin-bottom:8px; }
+          .save-btn { padding:9px 12px; font-size:10px; }
+          .theme-grid { grid-template-columns:1fr 1fr; gap:6px; }
+          .theme-card { padding:8px; border-radius:8px; }
+          .theme-preview { height:32px; margin-bottom:6px; padding:3px; }
+          .toggle-row { padding:6px 0; }
+          .toggle-label { font-size:11px; }
+          .contact-grid { gap:6px; }
+          .contact-card { padding:8px; }
+          .contact-icon { font-size:14px; }
+          .signout-card { padding:10px; }
+          .faq-q { padding:8px 0; }
+          .faq-q-text { font-size:11px; }
+          .faq-a { font-size:10px; }
         }
       `}</style>
 

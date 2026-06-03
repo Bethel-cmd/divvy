@@ -524,23 +524,148 @@ export default function BillsPage() {
         .tab-btn{padding:10px 16px;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;white-space:nowrap}
         .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
         .tab-btn:hover{color:var(--text)}
-        @media(max-width:768px) {
+        @media(max-width:1024px) {
+          .btb{padding:24px 32px}
+          .sr{padding:20px 32px}
+          .fr{padding:12px 32px}
+          .bl{padding:16px 32px}
+          .pending-banner{margin:12px 32px}
+        }
+        @media(max-width:900px) {
           .tabs-container{display:block}
-          .btb{padding:28px 20px 20px; flex-direction:column; align-items:flex-start; gap:16px}
-          .sr{grid-template-columns:1fr;padding:20px 20px 0}
-          .fr{padding:16px 20px 0;flex-wrap:wrap}
-          .bl{padding:16px 20px 40px}
-          .sp{width:100vw}
-          .ph{padding:16px 20px}
-          .pb{padding:16px 20px}
-          .pending-banner{margin:12px 20px 0; flex-direction:column; align-items:stretch}
-          .pending-banner-btn{width:100%; text-align:center; margin-top:8px}
-          .bc{padding:14px 16px; gap:12px}
-          .bci{width:36px; height:36px; font-size:16px}
-          .ba{font-size:14px}
-          .modal-card{padding:24px; margin:16px}
-          .srow{padding:12px; gap:8px; flex-wrap:wrap}
-          .si{min-width:120px}
+          .btb{padding:20px 24px;flex-direction:column;align-items:flex-start;gap:12px}
+          .btt{font-size:22px;margin-bottom:2px}
+          .bts{font-size:12px}
+          .add-btn{padding:10px 16px;font-size:12px;gap:6px;width:auto}
+          .sr{grid-template-columns:1fr 1fr;padding:16px 24px 0;gap:12px}
+          .sc{padding:14px;border-radius:14px}
+          .sl{font-size:10px}
+          .sv{font-size:18px}
+          .fr{padding:12px 24px;gap:6px;flex-wrap:wrap}
+          .ft{padding:6px 12px;font-size:12px;border-radius:8px}
+          .bl{padding:12px 24px}
+          .bc{padding:12px 14px;gap:10px;border-radius:12px}
+          .bci{width:32px;height:32px;font-size:14px}
+          .bn{font-size:13px}
+          .bm{font-size:11px}
+          .ba{font-size:13px}
+          .sp{width:90vw;border-radius:18px 18px 0 0}
+          .ph{padding:14px 18px}
+          .pb{padding:14px 18px}
+          .pt{font-size:16px}
+          .pc{width:30px;height:30px}
+          .srow{padding:10px;gap:8px}
+          .si{min-width:100px}
+          .tabs{padding:0 24px 12px;gap:6px}
+          .tab-btn{padding:8px 12px;font-size:11px}
+          .pending-banner{margin:10px 24px;flex-direction:column;align-items:stretch}
+          .pending-banner-btn{width:100%;text-align:center;margin-top:6px}
+          .modal-card{padding:24px;margin:16px}
+        }
+        @media(max-width:640px) {
+          .btb{padding:16px 16px}
+          .btt{font-size:20px;letter-spacing:-0.4px}
+          .bts{font-size:11px}
+          .add-btn{width:100%;justify-content:center;padding:11px 14px;font-size:11px;gap:4px}
+          .tabs{padding:0 16px 12px;gap:4px}
+          .tab-btn{padding:7px 11px;font-size:10px}
+          .sr{grid-template-columns:1fr;padding:12px 16px 0;gap:10px}
+          .sc{padding:12px;border-radius:12px}
+          .sl{font-size:9px;margin-bottom:4px}
+          .sv{font-size:16px}
+          .fr{padding:10px 16px;gap:4px}
+          .ft{padding:5px 10px;font-size:10px;border-radius:7px}
+          .bl{padding:10px 16px}
+          .bc{padding:10px 12px;gap:8px;border-radius:10px}
+          .bci{width:28px;height:28px;font-size:13px}
+          .bn{font-size:12px}
+          .bm{font-size:10px;gap:3px}
+          .bright{gap:2px}
+          .ba{font-size:12px}
+          .bsb{padding:1px 5px;font-size:8px}
+          .ei{width:48px;height:48px;font-size:22px;margin:0 auto 12px}
+          .et{font-size:15px;margin-bottom:4px}
+          .esub{font-size:11px}
+          .pending-banner{margin:8px 16px;padding:12px;border-radius:10px;gap:8px;flex-direction:column}
+          .pending-banner-icon{font-size:16px}
+          .pending-banner-text{font-size:12px}
+          .pending-banner-btn{width:100%;padding:8px 12px;font-size:10px;margin-top:6px}
+          .sp{width:100vw;border-radius:16px 16px 0 0}
+          .ph{padding:12px 14px;gap:8px}
+          .pt{font-size:14px}
+          .pc{width:26px;height:26px}
+          .pb{padding:12px 14px;max-height:calc(100vh - 120px);overflow-y:auto}
+          .flab{font-size:9px;margin-bottom:4px}
+          .fi{font-size:14px;padding:10px 11px;margin-bottom:12px}
+          .cg{gap:6px}
+          .cb{padding:8px 6px;border-radius:8px}
+          .cbi{font-size:16px}
+          .cbl{font-size:9px}
+          .sprev{padding:12px;margin-top:2px;border-radius:10px}
+          .sprevl{font-size:9px;margin-bottom:8px}
+          .spr{padding:4px 0;font-size:12px}
+          .sprn{font-size:12px}
+          .spra{font-size:12px}
+          .tr{padding:2px 0}
+          .tl{font-size:12px}
+          .tog{width:38px;height:20px}
+          .tt{width:14px;height:14px}
+          .tog.on .tt{transform:translateX(18px)}
+          .subbtn{padding:11px;font-size:12px}
+          .ds{margin-bottom:16px}
+          .dst{font-size:9px;margin-bottom:8px}
+          .dsr{padding:6px 0}
+          .dsrl{font-size:11px}
+          .dsrv{font-size:11px}
+          .sav{width:30px;height:30px;font-size:10px}
+          .sn{font-size:11px}
+          .ss{font-size:10px}
+          .sam{font-size:12px}
+          .verify-btn{padding:4px 8px;font-size:9px;border-radius:5px}
+          .reject-note{padding:6px 8px;font-size:9px}
+          .delbtn{padding:10px;font-size:11px}
+          .modal-card{padding:20px;margin:12px;max-width:90vw}
+          .modal-icon{width:40px;height:40px;font-size:18px;margin-bottom:12px}
+          .modal-title{font-size:15px;margin-bottom:6px}
+          .modal-sub{font-size:11px;margin-bottom:14px}
+          .modal-cancel,.modal-confirm{padding:10px;font-size:12px}
+        }
+        @media(max-width:480px) {
+          .btb{padding:14px 12px}
+          .btt{font-size:18px;letter-spacing:-0.3px}
+          .bts{font-size:10px}
+          .add-btn{padding:9px 12px;font-size:10px}
+          .tabs{padding:0 12px 10px;gap:3px}
+          .tab-btn{padding:6px 9px;font-size:9px}
+          .sr{padding:10px 12px 0;gap:8px}
+          .sc{padding:10px;border-radius:10px}
+          .sl{font-size:8px;margin-bottom:3px}
+          .sv{font-size:14px}
+          .fr{padding:8px 12px;gap:2px}
+          .ft{padding:4px 8px;font-size:9px}
+          .bl{padding:8px 12px}
+          .bc{padding:8px 10px;gap:6px;border-radius:10px}
+          .bci{width:24px;height:24px;font-size:12px}
+          .bn{font-size:11px}
+          .bm{font-size:9px}
+          .ba{font-size:11px}
+          .bsb{padding:0 3px;font-size:7px}
+          .pending-banner{margin:6px 12px;padding:10px;border-radius:8px}
+          .pending-banner-icon{font-size:14px}
+          .pending-banner-text{font-size:10px}
+          .pending-banner-btn{padding:6px 10px;font-size:9px}
+          .sp{width:100vw;border-radius:14px 14px 0 0}
+          .ph{padding:10px 12px;gap:6px}
+          .pt{font-size:13px}
+          .pc{width:22px;height:22px}
+          .pb{padding:10px 12px;max-height:calc(100vh - 100px)}
+          .flab{font-size:8px}
+          .fi{font-size:13px;padding:9px 10px;border-radius:8px}
+          .cbi{font-size:14px}
+          .modal-card{padding:16px;margin:10px;border-radius:14px}
+          .modal-title{font-size:13px}
+          .modal-sub{font-size:10px}
+          .modal-cancel,.modal-confirm{padding:9px;font-size:11px}
         }
       `}</style>
 
@@ -581,9 +706,6 @@ export default function BillsPage() {
             </button>
           </div>
         )}
-
-          </div>
-        </div>
 
         {/* ANALYTICS VIEW */}
         {currentTab === "analytics" && bills.length > 0 && (

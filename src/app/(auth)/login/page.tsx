@@ -375,9 +375,95 @@ export default function LoginPage() {
           text-decoration: none;
         }
 
+        @media (max-width: 1024px) {
+          .auth-root { padding: 32px 24px; }
+          .auth-card { max-width: 440px; }
+          .logo-mark { width: 36px; height: 36px; }
+          .logo-text { font-size: 18px; }
+          .auth-heading { font-size: 28px; }
+          .auth-sub { font-size: 14px; margin-bottom: 28px; }
+          .field-label { font-size: 11px; }
+          .field-input { padding: 13px 14px; font-size: 14px; }
+          .msg { font-size: 12px; padding: 10px 14px; }
+          .submit-btn { padding: 14px; font-size: 14px; margin-top: 18px; }
+          .divider { margin: 20px 0; }
+          .divider-text { font-size: 11px; }
+          .oauth-btns { gap: 10px; }
+          .oauth-btn { padding: 12px; font-size: 13px; }
+          .bottom-note { font-size: 11px; margin-top: 20px; }
+          .tab-btn { padding: 10px 14px; font-size: 12px; }
+        }
+
+        @media (max-width: 900px) {
+          .auth-root { padding: 28px 20px; }
+          .auth-card { max-width: 400px; }
+          .logo-mark { width: 32px; height: 32px; }
+          .logo-text { font-size: 16px; }
+          .auth-heading { font-size: 24px; letter-spacing: -0.5px; }
+          .auth-sub { font-size: 13px; margin-bottom: 24px; }
+          .field-label { font-size: 10px; margin-bottom: 4px; }
+          .field-input { padding: 12px 12px; font-size: 13px; margin-bottom: 14px; border-radius: 11px; }
+          .msg { font-size: 12px; padding: 10px 12px; margin-top: 14px; border-radius: 9px; }
+          .submit-btn { padding: 13px; font-size: 13px; border-radius: 12px; margin-top: 16px; }
+          .divider { margin: 18px 0; gap: 10px; }
+          .divider-line { height: 1px; }
+          .divider-text { font-size: 11px; }
+          .oauth-btns { gap: 8px; }
+          .oauth-btn { padding: 11px; font-size: 12px; border-radius: 11px; }
+          .bottom-note { font-size: 11px; margin-top: 18px; }
+          .tab-btn { padding: 9px 12px; font-size: 11px; }
+          .tab-btn.active::after { height: 2px; }
+          .spinner { width: 14px; height: 14px; margin-right: 6px; }
+        }
+
+        @media (max-width: 640px) {
+          .auth-root { padding: 20px 16px; }
+          .auth-card { max-width: 100%; }
+          .logo-wrap { margin-bottom: 28px; gap: 6px; }
+          .logo-mark { width: 28px; height: 28px; }
+          .logo-text { font-size: 14px; }
+          .auth-heading { font-size: 22px; letter-spacing: -0.3px; line-height: 1.2; margin-bottom: 6px; }
+          .auth-sub { font-size: 12px; margin-bottom: 20px; line-height: 1.6; }
+          .mode-tabs { margin-bottom: 20px; gap: 4px; }
+          .tab-btn { padding: 8px 10px; font-size: 10px; border-radius: 9px; }
+          .tab-btn.active::after { height: 2px; }
+          .form-group { margin-bottom: 12px; }
+          .field-label { font-size: 9px; letter-spacing: 0.4px; margin-bottom: 3px; }
+          .field-input { padding: 11px 11px; font-size: 12px; margin-bottom: 12px; border-radius: 10px; }
+          .msg { font-size: 11px; padding: 9px 10px; margin-top: 12px; }
+          .submit-btn { padding: 12px; font-size: 12px; border-radius: 11px; margin-top: 14px; }
+          .divider { margin: 16px 0; gap: 8px; }
+          .divider-text { font-size: 10px; }
+          .oauth-btns { gap: 6px; margin-bottom: 20px; }
+          .oauth-btn { padding: 10px; font-size: 11px; border-radius: 10px; gap: 6px; }
+          .oauth-icon { width: 16px; height: 16px; }
+          .bottom-note { font-size: 10px; margin-top: 16px; line-height: 1.5; }
+          .spinner { width: 12px; height: 12px; margin-right: 5px; }
+        }
+
         @media (max-width: 480px) {
-          .auth-heading { font-size: 26px; }
-          .auth-root { padding: 16px; }
+          .auth-root { padding: 16px 12px; }
+          .auth-card { max-width: 100%; }
+          .logo-wrap { margin-bottom: 24px; gap: 5px; }
+          .logo-mark { width: 24px; height: 24px; }
+          .logo-text { font-size: 13px; }
+          .auth-heading { font-size: 20px; letter-spacing: -0.2px; margin-bottom: 4px; }
+          .auth-sub { font-size: 11px; margin-bottom: 16px; }
+          .mode-tabs { margin-bottom: 16px; gap: 2px; }
+          .tab-btn { padding: 7px 8px; font-size: 9px; border-radius: 8px; }
+          .tab-btn.active::after { height: 1.5px; }
+          .form-group { margin-bottom: 10px; }
+          .field-label { font-size: 8px; letter-spacing: 0.3px; margin-bottom: 2px; }
+          .field-input { padding: 10px 9px; font-size: 11px; margin-bottom: 10px; border-radius: 8px; }
+          .msg { font-size: 10px; padding: 8px 9px; margin-top: 10px; border-radius: 8px; }
+          .submit-btn { padding: 11px; font-size: 11px; border-radius: 10px; margin-top: 12px; }
+          .divider { margin: 14px 0; gap: 6px; }
+          .divider-text { font-size: 9px; }
+          .oauth-btns { gap: 5px; margin-bottom: 16px; }
+          .oauth-btn { padding: 9px; font-size: 10px; border-radius: 9px; gap: 5px; }
+          .oauth-icon { width: 14px; height: 14px; }
+          .bottom-note { font-size: 9px; margin-top: 14px; line-height: 1.4; }
+          .spinner { width: 11px; height: 11px; margin-right: 4px; }
         }
       `}</style>
 
