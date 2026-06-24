@@ -9,6 +9,7 @@ export default function LoginPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -87,7 +88,7 @@ export default function LoginPage() {
 
         .auth-root {
           min-height: 100vh;
-          background: #1E1E1E;
+          background: var(--bg);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -113,7 +114,7 @@ export default function LoginPage() {
           content: '';
           position: fixed;
           inset: 0;
-          background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-image: radial-gradient(circle, rgba(128,128,128,0.06) 1px, transparent 1px);
           background-size: 32px 32px;
           pointer-events: none;
         }
@@ -143,11 +144,12 @@ export default function LoginPage() {
         .logo-mark {
           width: 36px;
           height: 36px;
-          background: #C8F135;
+          background: var(--accent);
           border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .logo-mark svg {
@@ -159,7 +161,7 @@ export default function LoginPage() {
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 20px;
-          color: #FFFFFF;
+          color: var(--text);
           letter-spacing: -0.3px;
         }
 
@@ -168,7 +170,7 @@ export default function LoginPage() {
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 32px;
-          color: #FFFFFF;
+          color: var(--text);
           letter-spacing: -0.8px;
           line-height: 1.1;
           margin-bottom: 8px;
@@ -176,12 +178,12 @@ export default function LoginPage() {
         }
 
         .auth-heading span {
-          color: #C8F135;
+          color: var(--accent);
         }
 
         .auth-sub {
           font-size: 14px;
-          color: #666;
+          color: var(--text-muted);
           margin-bottom: 36px;
           animation: cardIn 0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
@@ -189,7 +191,7 @@ export default function LoginPage() {
         /* Tab switcher */
         .tab-switcher {
           display: flex;
-          background: #2A2A2A;
+          background: var(--surface);
           border-radius: 12px;
           padding: 4px;
           margin-bottom: 28px;
@@ -207,13 +209,13 @@ export default function LoginPage() {
           cursor: pointer;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           background: transparent;
-          color: #666;
+          color: var(--text-muted);
         }
 
         .tab-btn.active {
-          background: #333;
-          color: #FFFFFF;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+          background: var(--surface-2);
+          color: var(--text);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         }
 
         /* Form fields */
@@ -232,7 +234,7 @@ export default function LoginPage() {
           display: block;
           font-size: 11px;
           font-weight: 500;
-          color: #666;
+          color: var(--text-muted);
           letter-spacing: 0.6px;
           text-transform: uppercase;
           margin-bottom: 6px;
@@ -240,30 +242,29 @@ export default function LoginPage() {
 
         .field-input {
           width: 100%;
-          background: #242424;
-          border: 1px solid #333;
+          background: var(--surface-2);
+          border: 1px solid var(--border);
           border-radius: 12px;
           padding: 14px 16px;
           font-family: 'DM Sans', sans-serif;
           font-size: 15px;
-          color: #FFFFFF;
+          color: var(--text);
           outline: none;
           transition: border-color 0.2s, background 0.2s;
           -webkit-appearance: none;
         }
 
         .field-input::placeholder {
-          color: #444;
+          color: var(--text-muted);
         }
 
         .field-input:focus {
-          border-color: #C8F135;
-          background: #262626;
+          border-color: var(--accent);
         }
 
         .field-input:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0 100px #242424 inset;
-          -webkit-text-fill-color: #FFFFFF;
+          -webkit-text-fill-color: var(--text);
+          transition: background-color 5000s ease-in-out 0s;
         }
 
         /* Error / success */
@@ -284,7 +285,7 @@ export default function LoginPage() {
         .msg.success {
           background: rgba(200,241,53,0.08);
           border: 1px solid rgba(200,241,53,0.2);
-          color: #C8F135;
+          color: var(--accent);
         }
 
         /* Submit button */
@@ -292,13 +293,13 @@ export default function LoginPage() {
           margin-top: 20px;
           width: 100%;
           padding: 16px;
-          background: #C8F135;
+          background: var(--accent);
           border: none;
           border-radius: 14px;
           font-family: 'Syne', sans-serif;
           font-size: 15px;
           font-weight: 600;
-          color: #1E1E1E;
+          color: var(--bg);
           cursor: pointer;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           letter-spacing: -0.2px;
@@ -308,7 +309,7 @@ export default function LoginPage() {
         }
 
         .submit-btn:hover:not(:disabled) {
-          background: #D4F557;
+          filter: brightness(1.08);
           transform: translateY(-1px);
           box-shadow: 0 8px 24px rgba(200,241,53,0.25);
         }
@@ -327,8 +328,8 @@ export default function LoginPage() {
           display: inline-block;
           width: 16px;
           height: 16px;
-          border: 2px solid rgba(30,30,30,0.3);
-          border-top-color: #1E1E1E;
+          border: 2px solid rgba(0,0,0,0.25);
+          border-top-color: var(--bg);
           border-radius: 50%;
           animation: spin 0.7s linear infinite;
           vertical-align: middle;
@@ -351,12 +352,12 @@ export default function LoginPage() {
         .divider-line {
           flex: 1;
           height: 1px;
-          background: #2E2E2E;
+          background: var(--border);
         }
 
         .divider-text {
           font-size: 12px;
-          color: #444;
+          color: var(--text-muted);
           white-space: nowrap;
         }
 
@@ -364,14 +365,14 @@ export default function LoginPage() {
         .bottom-note {
           text-align: center;
           font-size: 12px;
-          color: #444;
+          color: var(--text-muted);
           margin-top: 28px;
           animation: cardIn 0.5s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
           line-height: 1.6;
         }
 
         .bottom-note a {
-          color: #C8F135;
+          color: var(--accent);
           text-decoration: none;
         }
 
@@ -474,7 +475,7 @@ export default function LoginPage() {
           <div className="logo-wrap">
             <div className="logo-mark">
               <svg viewBox="0 0 18 18" fill="none">
-                <path d="M3 9h12M9 3l6 6-6 6" stroke="#1E1E1E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3 9h12M9 3l6 6-6 6" stroke="var(--bg)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
             <span className="logo-text">Divvy</span>
@@ -540,14 +541,46 @@ export default function LoginPage() {
 
             <div className="field">
               <label className="field-label">Password</label>
-              <input
-                className="field-input"
-                type="password"
-                placeholder={mode === "signup" ? "Min. 6 characters" : "••••••••"}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                autoComplete={mode === "login" ? "current-password" : "new-password"}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  className="field-input"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={mode === "signup" ? "Min. 6 characters" : "••••••••"}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  autoComplete={mode === "login" ? "current-password" : "new-password"}
+                  style={{ paddingRight: "48px" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "14px",
+                    bottom: "14px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "var(--text-muted)",
+                    padding: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {showPassword ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 

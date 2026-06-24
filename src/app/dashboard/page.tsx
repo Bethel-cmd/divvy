@@ -50,15 +50,18 @@ export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
+    console.log("DASH: useEffect fired. authLoading =", authLoading, "user =", user);
     if (authLoading) return;
     if (!user) { router.push("/login"); return; }
 
     async function load() {
       if (!user) return;
+      console.log("DASH: load() started, user.id =", user.id);
       const supabase = createClient();
 
-      const { data: prof } = await supabase
+      const { data: prof, error: profErr } = await supabase
         .from("profiles").select("full_name").eq("id", user.id).single();
+      console.log("DASH: profile fetched", prof, profErr);
       setProfile({
         full_name: prof?.full_name || user.email?.split("@")[0] || "there",
         email: user.email || "",
@@ -113,9 +116,13 @@ export default function DashboardPage() {
         const verified = (allShares || []).filter(s => s.status === "verified");
         setTotalPaid(verified.reduce((sum, s) => sum + Number(s.amount_owed), 0));
       }
+      console.log("DASH: load() finished successfully");
       setLoading(false);
     }
-    load();
+    load().catch(err => {
+      console.error("DASH: load() threw an error:", err);
+      setLoading(false);
+    });
   }, [router, user, authLoading]);
 
   const firstName = profile?.full_name?.split(" ")[0] || "there";
