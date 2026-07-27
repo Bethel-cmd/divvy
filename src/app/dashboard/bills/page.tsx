@@ -392,7 +392,7 @@ export default function BillsPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
         .br{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text)}
-        .btb{padding:20px 40px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px}
+        .btb{padding:16px 40px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px}
         .btt{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.6px;margin-bottom:4px}
         .bts{font-size:13px;color:var(--text-muted)}
         .add-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:var(--accent);border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--bg);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s cubic-bezier(.16,1,.3,1)}
@@ -533,7 +533,7 @@ export default function BillsPage() {
         }
         @media(max-width:900px) {
           .tabs-container{display:block}
-          .btb{padding:20px 24px;flex-direction:column;align-items:flex-start;gap:12px}
+          .btb{padding:12px 16px;flex-direction:row;align-items:center;gap:8px}
           .btt{font-size:22px;margin-bottom:2px}
           .bts{font-size:12px}
           .add-btn{padding:10px 16px;font-size:12px;gap:6px;width:auto}

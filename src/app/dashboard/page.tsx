@@ -233,10 +233,14 @@ export default function DashboardPage() {
           .dash-grid { gap: 12px; }
           .balance-card { padding: 20px 16px; border-radius: 18px; }
           .balance-label { font-size: 10px; margin-bottom: 6px; }
-          .balance-amount { font-size: 32px; }
+          .balance-amount { font-size: clamp(20px, 7vw, 32px); letter-spacing: -0.5px; }
+          .balance-card { padding: 16px; }
+          .balance-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+          .balance-actions { width: 100%; }
+          .fund-btn { flex: 1; justify-content: center; }
+          .outline-btn { flex: 1; justify-content: center; }
           .balance-amount .currency { font-size: 18px; }
           .balance-sub { font-size: 12px; }
-          .balance-inner { gap: 12px; flex-direction: column; align-items: flex-start; }
           .balance-actions { gap: 8px; }
           .fund-btn, .outline-btn { padding: 11px 16px; font-size: 12px; gap: 6px; }
           .setup-card { padding: 16px 14px; border-radius: 16px; }
