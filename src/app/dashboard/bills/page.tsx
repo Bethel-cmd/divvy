@@ -870,24 +870,9 @@ export default function BillsPage() {
             </p>
           </div>
         )}
-      </div>
-
-      {/* Only show bills list if on bills tab */}
-      {currentTab === "bills" && (
+        {/* Only show bills list if on bills tab */}
+        {currentTab === "bills" && (
         <>
-          {/* Admin pending verification banner */}
-          {isAdmin && pendingVerifications > 0 && (
-            <div className="pending-banner">
-              <span className="pending-banner-icon">🕐</span>
-              <span className="pending-banner-text">
-                <strong>{pendingVerifications} payment{pendingVerifications > 1 ? "s" : ""}</strong> waiting for your verification
-              </span>
-              <button className="pending-banner-btn" onClick={() => setFilter("pending")}>
-                Review now
-              </button>
-            </div>
-          )}
-
           {/* Summary */}
           <div className="sr">
             {[
@@ -974,6 +959,7 @@ export default function BillsPage() {
           </div>
         </>
       )}
+      </div>
 
       {/* ── ADD BILL PANEL ── */}
       {panelOpen && (
